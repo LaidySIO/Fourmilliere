@@ -108,7 +108,7 @@ public class Start extends JFrame {
 
                         System.out.println("ouvriere : " + ouvriere.toString());
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             System.out.println("Exception e : " + e);
                         }
@@ -120,7 +120,7 @@ public class Start extends JFrame {
 
                         System.out.println("guerriere : " + guerriere.toString());
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             System.out.println("Exception e : " + e);
                         }

@@ -104,7 +104,6 @@ public class GUI {
 
     public static void regenerate() {
         int size = temp.length -1;
-        System.out.println("size : " + size);
         MainFourmilliere.board.removeAll();
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) {
@@ -138,7 +137,7 @@ public class GUI {
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("une fourmi a essayer d'aller a la position :"+MainFourmilliere.temp[1] +" , "+MainFourmilliere.temp[0]+" sans succes car la case n'existe pas");
-
+            return false;
         }
         return false;
 

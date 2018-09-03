@@ -26,6 +26,8 @@ public class Reine extends Fourmi {
         int naissance = 0;
         System.out.println("Position de la reine au début du jeu : x " + position[0] + " y : " + position[1]);
         int[] positionTemp = new int[2];
+        int directionPos = getDirectionPossible(this).size();
+        int loop = 0;
 
         while (naissance < 3){
             position = randCase(getDirectionPossible(this));
