@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static com.fourmilliere.main.MainFourmilliere.gameOver;
 import static com.fourmilliere.main.MainFourmilliere.listFourmis;
 
 public class Start extends JFrame {
@@ -69,54 +70,50 @@ public class Start extends JFrame {
             try {
                 // On attend que la partie se lance
                 Thread.sleep(4000);
-            }catch(InterruptedException e) {
+            } catch (InterruptedException e) {
                 System.out.println("Exception e : " + e);
             }
 
             // Reine
-            //
-            for(int i = 0; i < listFourmis.size();i++)
-            {
+            // Au lancement du jeu les reines accouchent
+            for (int i = 0; i < listFourmis.size(); i++) {
                 String getClass = listFourmis.get(i).getClass().toString();
-                if( getClass.equals( "class com.fourmilliere.entities.Reine")){
+                if (getClass.equals("class com.fourmilliere.entities.Reine")) {
                     Reine reine = (Reine) listFourmis.get(i);
                     try {
                         Thread.sleep(1000);
-                    }catch(InterruptedException e) {
+                    } catch (InterruptedException e) {
                         System.out.println("Exception e : " + e);
                     }
 
                     reine.donnerVie();
                     GUI.regenerate();
                 }
-                else if( getClass.equals( "class com.fourmilliere.entities.Ouvriere")){
+
+                /*else if( getClass.equals( "class com.fourmilliere.entities.Ouvriere")){
                     Ouvriere ouvriere = (Ouvriere) listFourmis.get(i);
                         ouvriere.seDeplacer();
                         GUI.regenerate();
                         System.out.println("ouvriere : " + ouvriere.toString());
-                    }
-                }
-
-            for(int i = 0; i < listFourmis.size();i++)
-            {
-                String getClass = listFourmis.get(i).getClass().toString();
-                if( getClass.equals( "class com.fourmilliere.entities.Ouvriere")){
-                    Ouvriere ouvriere = (Ouvriere) listFourmis.get(i);
-                    while(true) {
+                    }*/
+            }
+            while (!gameOver) {
+                for (int i = 0; i < listFourmis.size(); i++) {
+                    String getClass = listFourmis.get(i).getClass().toString();
+                    if (getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
+                        Ouvriere ouvriere = (Ouvriere) listFourmis.get(i);
                         ouvriere.seDeplacer();
                         GUI.regenerate();
 
                         System.out.println("ouvriere : " + ouvriere.toString());
                         try {
                             Thread.sleep(1000);
-                        }catch(InterruptedException e) {
+                        } catch (InterruptedException e) {
                             System.out.println("Exception e : " + e);
                         }
-
                     }
                 }
             }
-
 
 
         }

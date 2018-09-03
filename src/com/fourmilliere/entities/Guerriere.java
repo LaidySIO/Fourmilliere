@@ -1,5 +1,7 @@
 package com.fourmilliere.entities;
 
+import java.util.Arrays;
+
 public class Guerriere extends Fourmi{
 
     int victimes = 0;
@@ -20,4 +22,14 @@ public class Guerriere extends Fourmi{
         kill();
     }
 
+    @Override
+    public String toString() {
+        return "Guerriere{" +
+                "victimes=" + victimes +
+                ", id=" + id +
+                ", faction=" + faction +
+                ", position=" + Arrays.toString(position) +
+                ", alive=" + alive +
+                '}';
+    }
 }

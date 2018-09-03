@@ -23,11 +23,13 @@ public class Reine extends Fourmi {
 
     public void donnerVie() {
         int[] position = this.getPosition();
+        System.out.println("Position de la reine au début du jeu : x " + position[0] + " y : " + position[1]);
         int[] positionTemp = new int[2];
 
         for (int i =0; i<=2;i++){
-            System.out.println("Test i ## " + i);
             position = randCase(getDirectionPossible(this));
+            System.out.println("Directions possibles pour accouchement de la reine " + getDirectionPossible(this).size());
+            System.out.println("Position proposée : y " + position[0] + " x : " + position[1]);
             try {
                 if (MainFourmilliere.temp[position[1]][position[0]].typeFourmi == null && MainFourmilliere.temp[position[1]][position[0]] != null) {
                     positionTemp = position;
@@ -63,17 +65,17 @@ public class Reine extends Fourmi {
 
     public void actionDonnerVieOuvriere(int[] positionTemp) {
 
-        positionTemp = randCase(getDirectionPossible(this));
         listFourmis.add(new Ouvriere(this.faction, positionTemp));
         temp[positionTemp[1]][positionTemp[0]].setTypeFourmi("Ouvriere");
+        System.out.println("Naissance d'une ouvriere au debut du jeu = " + listFourmis.get(listFourmis.size() - 1).toString());
 
     }
 
     public void actionDonnerVieGuerriere(int[] positionTemp) {
 
-        positionTemp = randCase(getDirectionPossible(this));
         listFourmis.add(new Guerriere(this.faction, positionTemp));
         temp[positionTemp[1]][positionTemp[0]].setTypeFourmi("Guerriere");
+        System.out.println("Naissance d'une guerriere au debut du jeu = " + listFourmis.get(listFourmis.size() - 1).toString());
     }
 
     public static Reine getReine(int faction ) {

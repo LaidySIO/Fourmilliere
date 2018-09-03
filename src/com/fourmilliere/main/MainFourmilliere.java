@@ -20,7 +20,10 @@ public class MainFourmilliere {
     // Cases du jeu
     public static JTextField[][] index;
     // Liste des fourmis pour toute la durée du jeu
-    public static ArrayList<Fourmi> listFourmis = new ArrayList<>();;
+    public static ArrayList<Fourmi> listFourmis = new ArrayList<>();
+
+    public static boolean gameOver = false;
+
 
 
 
