@@ -1,0 +1,82 @@
+package com.fourmilliere.ihm;
+
+import com.company.Test;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class IhmFourmilliere extends JFrame {
+
+    private static IhmFourmilliere INSTANCE = null;
+    JFrame frame;
+
+
+    public static synchronized IhmFourmilliere getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new IhmFourmilliere();
+        }
+        return INSTANCE;
+    }
+
+    public IhmFourmilliere() {
+        start();
+
+    }
+
+    void window(int taille) {
+        JPanel container = new JPanel();
+        this.setTitle("Grid Layout");
+        this.setSize(1500, 1500);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        container.setLayout(new GridLayout(taille,taille));
+        
+        this.setContentPane(container);
+        this.setVisible(true);
+
+    }
+
+    public void paint( Graphics g )
+    {
+        for ( int x = 30; x <= 300; x += 30 )
+            for ( int y = 30; y <= 300; y += 30 )
+                g.drawRect( x, y, 30, 30 );
+
+    }
+
+    private void start() {
+        JTextField taille = new JTextField(5);
+        JTextField colonies = new JTextField(5);
+        JTextField rarete = new JTextField(5);
+
+        JPanel myPanel = new JPanel();
+        myPanel.add(new JLabel("Nombre de case :"));
+        myPanel.add(taille);
+
+
+        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+        myPanel.add(new JLabel("Nombre de colonies :"));
+        myPanel.add(colonies);
+
+        myPanel.add(new JLabel("% de ressources :"));
+        myPanel.add(rarete);
+
+        int result = JOptionPane.showConfirmDialog(null, myPanel,
+                "Parametres du jeu ", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            System.out.println("Nombre de lignes : " + taille.getText());
+            System.out.println("Nombre de colonies : " + colonies.getText());
+            System.out.println("Rareté des ressources : " + rarete.getText());
+
+            window(Integer.parseInt(taille.getText()));
+        }
+    }
+
+    class MyCanvas extends JComponent {
+        public void paint(Graphics g) {
+
+
+        }
+    }
+
+}
