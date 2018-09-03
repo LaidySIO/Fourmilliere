@@ -13,7 +13,7 @@ import static com.fourmilliere.main.MainFourmilliere.temp;
 public class Ouvriere extends Fourmi{
 
     String inventaire = null;
-    public Ouvriere(int faction, int[] position) {
+    public Ouvriere(Faction faction, int[] position) {
         this.faction = faction;
         this.position = position;
         this.alive = true;
@@ -97,6 +97,8 @@ public class Ouvriere extends Fourmi{
             if (temp[positionTarget[1]][positionTarget[0]].typeRessource != null) {
                 this.inventaire = temp[positionTarget[1]][positionTarget[0]].getTypeRessource();
                 temp[positionTarget[1]][positionTarget[0]].setTypeRessource(null);
+                // On remet la couleur en noir
+                temp[positionTarget[1]][positionTarget[0]].setF(new Faction());
             }
         }else{
             //TODO: Si la reine est morte lancer getPositionFinal("cherche");
@@ -107,6 +109,8 @@ public class Ouvriere extends Fourmi{
         temp[positionInitial[1]][positionInitial[0]].setTypeFourmi(null);
         this.setPosition(positionTarget);
         temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
+        // On remet la couleur de l'ouvriere
+        temp[positionTarget[1]][positionTarget[0]].setF(this.faction);
 
     }
 

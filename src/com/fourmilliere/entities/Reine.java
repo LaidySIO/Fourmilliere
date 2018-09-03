@@ -14,7 +14,7 @@ public class Reine extends Fourmi {
     private int water = 0;
     private int food = 0;
 
-    public Reine(int faction, int[] position) {
+    public Reine(Faction faction, int[] position) {
         this.faction = faction;
 
         this.position = position;
@@ -80,12 +80,12 @@ public class Reine extends Fourmi {
         System.out.println("Naissance d'une guerriere au debut du jeu = " + listFourmis.get(listFourmis.size() - 1).toString());
     }
 
-    public static Reine getReine(int faction ) {
+    public static Reine getReine(Faction faction ) {
         ArrayList<Fourmi> mesFourmis = listFourmis;
         for (Fourmi fourmi:mesFourmis) {
             String getClass = fourmi.getClass().toString();
             if( getClass.equals( "class com.fourmilliere.entities.Reine")) {
-                if (fourmi.getFaction() == faction)
+                if (fourmi.getFaction().equals(faction))
                     return (Reine) fourmi;
             }
         }

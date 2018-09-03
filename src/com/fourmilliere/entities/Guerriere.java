@@ -7,7 +7,7 @@ public class Guerriere extends Fourmi{
     int victimes = 0;
 
 
-    public Guerriere(int faction, int[] position) {
+    public Guerriere(Faction faction, int[] position) {
         this.faction = faction;
         this.position = position;
         this.alive = true;

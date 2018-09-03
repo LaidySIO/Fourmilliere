@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Fourmi  implements IActions{
 
     int id;
-    protected int faction;
+    protected Faction faction;
     protected int[] position;
     protected boolean alive = true;
 
@@ -103,13 +103,11 @@ public abstract class Fourmi  implements IActions{
     }
 
 
-
-
-    public int getFaction() {
+    public Faction getFaction() {
         return faction;
     }
 
-    public void setFaction(int faction) {
+    public void setFaction(Faction faction) {
         this.faction = faction;
     }
 

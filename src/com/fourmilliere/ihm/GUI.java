@@ -1,6 +1,7 @@
 package com.fourmilliere.ihm;
 
 import com.fourmilliere.entities.Case;
+import com.fourmilliere.entities.Faction;
 import com.fourmilliere.entities.Fourmi;
 import com.fourmilliere.entities.Reine;
 import com.fourmilliere.main.MainFourmilliere;
@@ -34,6 +35,7 @@ public class GUI {
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) {
                 MainFourmilliere.index[i][j] = new JTextField(1);
+                MainFourmilliere.index[i][j].setForeground(sudoku[i][j].getF().getColor());
                 MainFourmilliere.index[i][j].setText(sudoku[i][j].toString());
                 MainFourmilliere.index[i][j].setEditable(false);
                 MainFourmilliere.board.add(MainFourmilliere.index[i][j]);
@@ -49,6 +51,9 @@ public class GUI {
         for (int y = 0; y < size; y++)
             for (int x = 0; x < size; x++) {
                 temp[y][x] = new Case(x, y);
+                Faction f = new Faction(0);
+                f.setColor(new Color(0,0,0));
+                temp[y][x].setF(f);
             }
         // Creation du des ressources de la grille
         for (int y = 0; y < size; y++)
@@ -73,9 +78,11 @@ public class GUI {
             int x = (int) (Math.random() * size);
             int y = (int) (Math.random() * size);
             if (temp[y][x].getEmpty() && temp[y][x].noBorder(x, y , size)) {                    // On génére les reine et leurs affecte déja l'id
-                MainFourmilliere.listFourmis.add(new Reine(num, new int[]{x, y}));
+                Faction f = new Faction(num);
+                MainFourmilliere.listFourmis.add(new Reine(f, new int[]{x, y}));
                 temp[y][x].setTypeFourmi("Reine");
                 temp[y][x].setId(num);
+                temp[y][x].setF(f);
                 num--;
             }
             System.out.println( "testSiCaseslibre :" +temp[y][x].getTypeFourmi());
@@ -104,6 +111,7 @@ public class GUI {
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) {
                 MainFourmilliere.index[i][j] = new JTextField(1);
+                MainFourmilliere.index[i][j].setForeground(temp[i][j].getF().getColor());
                 MainFourmilliere.index[i][j].setText(temp[i][j].toString());
                 MainFourmilliere.index[i][j].setEditable(false);
                 MainFourmilliere.board.add(MainFourmilliere.index[i][j]);

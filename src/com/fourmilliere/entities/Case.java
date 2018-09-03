@@ -7,7 +7,7 @@ public class Case {
     int x = 0;
     int y = 0;
     int id = 0;
-
+    Faction f = null;
     String typeRessource = null;
     String typeFourmi = null;
     Boolean empty = true;
@@ -72,6 +72,14 @@ public class Case {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Faction getF() {
+        return f;
+    }
+
+    public void setF(Faction f) {
+        this.f = f;
     }
 
     @Override

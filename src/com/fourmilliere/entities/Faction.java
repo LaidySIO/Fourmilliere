@@ -6,16 +6,32 @@ public class Faction {
 
     private int id;
     private Color color = null;
-    // Reine de cette Faction
-    private Reine reine = null;
 
-    public Faction(int id, Color color, Reine reine) {
-        this.id = id;
-        this.color = generateColor();
-        this.reine = reine;
+    public Faction() {
+        this.id = 0;
+        this.color = new Color(0,0,0);
     }
 
+    public Faction(int id) {
+        this.id = id;
+        this.color = generateColor();
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
     private Color generateColor() {
         int red = (int) (Math.random() * 255);
