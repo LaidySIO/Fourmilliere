@@ -1,13 +1,11 @@
 package com.fourmilliere.entities;
 
-import com.fourmilliere.ihm.GUI;
-
 public class Case {
 
     int x = 0;
     int y = 0;
     int id = 0;
-    Faction f = null;
+    Faction faction = null;
     String typeRessource = null;
     String typeFourmi = null;
     Boolean empty = true;
@@ -74,12 +72,12 @@ public class Case {
         this.id = id;
     }
 
-    public Faction getF() {
-        return f;
+    public Faction getFaction() {
+        return faction;
     }
 
-    public void setF(Faction f) {
-        this.f = f;
+    public void setFaction(Faction faction) {
+        this.faction = faction;
     }
 
     @Override

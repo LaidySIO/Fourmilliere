@@ -1,6 +1,7 @@
 package com.fourmilliere.ihm;
 
 import com.fourmilliere.entities.Fourmi;
+import com.fourmilliere.entities.Guerriere;
 import com.fourmilliere.entities.Ouvriere;
 import com.fourmilliere.entities.Reine;
 import com.fourmilliere.main.MainFourmilliere;
@@ -106,6 +107,18 @@ public class Start extends JFrame {
                         GUI.regenerate();
 
                         System.out.println("ouvriere : " + ouvriere.toString());
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            System.out.println("Exception e : " + e);
+                        }
+                    }
+                    if (getClass.equals("class com.fourmilliere.entities.Guerriere")) {
+                        Guerriere guerriere = (Guerriere) listFourmis.get(i);
+                        guerriere.seDeplacer();
+                        GUI.regenerate();
+
+                        System.out.println("guerriere : " + guerriere.toString());
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {

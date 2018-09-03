@@ -1,10 +1,6 @@
 package com.fourmilliere.entities;
 
 
-import com.fourmilliere.ihm.GUI;
-import com.fourmilliere.main.MainFourmilliere;
-import com.fourmilliere.main.Utils;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -98,19 +94,21 @@ public class Ouvriere extends Fourmi{
                 this.inventaire = temp[positionTarget[1]][positionTarget[0]].getTypeRessource();
                 temp[positionTarget[1]][positionTarget[0]].setTypeRessource(null);
                 // On remet la couleur en noir
-                temp[positionTarget[1]][positionTarget[0]].setF(new Faction());
+                temp[positionTarget[1]][positionTarget[0]].setFaction(new Faction());
             }
         }else{
             //TODO: Si la reine est morte lancer getPositionFinal("cherche");
             positionTarget = getPositionFinal("rentre");
         }
         int[] positionInitial = this.getPosition();
-
         temp[positionInitial[1]][positionInitial[0]].setTypeFourmi(null);
+        // On remet la couleur en noir
+        temp[positionInitial[1]][positionInitial[0]].setFaction(new Faction());
+
         this.setPosition(positionTarget);
         temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
         // On remet la couleur de l'ouvriere
-        temp[positionTarget[1]][positionTarget[0]].setF(this.faction);
+        temp[positionTarget[1]][positionTarget[0]].setFaction(this.faction);
 
     }
 

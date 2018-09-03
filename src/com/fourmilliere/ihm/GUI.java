@@ -7,10 +7,6 @@ import com.fourmilliere.entities.Reine;
 import com.fourmilliere.main.MainFourmilliere;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.lang.*;
 import java.util.ArrayList;
@@ -35,7 +31,9 @@ public class GUI {
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) {
                 MainFourmilliere.index[i][j] = new JTextField(1);
-                MainFourmilliere.index[i][j].setForeground(sudoku[i][j].getF().getColor());
+                MainFourmilliere.index[i][j].setForeground(sudoku[i][j].getFaction().getColor());
+                if (sudoku[i][j].toString().equals("Reine"))
+                    MainFourmilliere.index[i][j].setFont(new Font("Verdana",Font.BOLD,13));
                 MainFourmilliere.index[i][j].setText(sudoku[i][j].toString());
                 MainFourmilliere.index[i][j].setEditable(false);
                 MainFourmilliere.board.add(MainFourmilliere.index[i][j]);
@@ -53,7 +51,7 @@ public class GUI {
                 temp[y][x] = new Case(x, y);
                 Faction f = new Faction(0);
                 f.setColor(new Color(0,0,0));
-                temp[y][x].setF(f);
+                temp[y][x].setFaction(f);
             }
         // Creation du des ressources de la grille
         for (int y = 0; y < size; y++)
@@ -82,7 +80,7 @@ public class GUI {
                 MainFourmilliere.listFourmis.add(new Reine(f, new int[]{x, y}));
                 temp[y][x].setTypeFourmi("Reine");
                 temp[y][x].setId(num);
-                temp[y][x].setF(f);
+                temp[y][x].setFaction(f);
                 num--;
             }
             System.out.println( "testSiCaseslibre :" +temp[y][x].getTypeFourmi());
@@ -111,7 +109,7 @@ public class GUI {
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) {
                 MainFourmilliere.index[i][j] = new JTextField(1);
-                MainFourmilliere.index[i][j].setForeground(temp[i][j].getF().getColor());
+                MainFourmilliere.index[i][j].setForeground(temp[i][j].getFaction().getColor());
                 MainFourmilliere.index[i][j].setText(temp[i][j].toString());
                 MainFourmilliere.index[i][j].setEditable(false);
                 MainFourmilliere.board.add(MainFourmilliere.index[i][j]);
@@ -122,14 +120,27 @@ public class GUI {
     }
 
     public static boolean isFreeCase(int y, int x) {
-        if (MainFourmilliere.temp[y][x].getTypeFourmi() == null)
-            return true;
+        try {
+            if (MainFourmilliere.temp[y][x].getTypeFourmi() == null
+                    && MainFourmilliere.temp[y][x].getTypeRessource() == null)
+                return true;
+        }catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("une fourmi a essayer d'aller a la position :"+MainFourmilliere.temp[1] +" , "+MainFourmilliere.temp[0]+" sans succes car la case n'existe pas");
+
+        }
         return false;
     }
 
     public static boolean isValidCase(int y, int x) {
-        if (MainFourmilliere.temp[y][x] != null)
-            return true;
+        try {
+            if (MainFourmilliere.temp[y][x] != null)
+                return true;
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("une fourmi a essayer d'aller a la position :"+MainFourmilliere.temp[1] +" , "+MainFourmilliere.temp[0]+" sans succes car la case n'existe pas");
+
+        }
         return false;
+
     }
 }
