@@ -37,6 +37,14 @@ public class Case {
         return empty;
     }
 
+    public boolean noBorder(int x, int y, int size) {
+        if ((x > 1 && x < size - 2) && y > 1 && y < size - 2) {
+            return true;
+        }
+
+        return false;
+    }
+
     public void setEmpty(Boolean empty) {
         this.empty = empty;
     }

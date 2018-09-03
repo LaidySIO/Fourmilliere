@@ -23,17 +23,18 @@ public class Reine extends Fourmi {
 
     public void donnerVie() {
         int[] position = this.getPosition();
+        int naissance = 0;
         System.out.println("Position de la reine au début du jeu : x " + position[0] + " y : " + position[1]);
         int[] positionTemp = new int[2];
 
-        for (int i =0; i<=2;i++){
+        while (naissance < 3){
             position = randCase(getDirectionPossible(this));
             System.out.println("Directions possibles pour accouchement de la reine " + getDirectionPossible(this).size());
             System.out.println("Position proposée : y " + position[0] + " x : " + position[1]);
             try {
                 if (MainFourmilliere.temp[position[1]][position[0]].typeFourmi == null && MainFourmilliere.temp[position[1]][position[0]] != null) {
                     positionTemp = position;
-                    switch (i) {
+                    switch (naissance) {
                         case 0:
                             actionDonnerVieOuvriere(positionTemp);
                             break;
@@ -53,6 +54,7 @@ public class Reine extends Fourmi {
                                 break;
                             }
                     }
+                    naissance++;
 
                     //System.out.println(listFourmis.get(listFourmis.size() - 1).toString());
                 }

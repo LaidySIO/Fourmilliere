@@ -72,7 +72,7 @@ public class GUI {
         while (num > 0) {
             int x = (int) (Math.random() * size);
             int y = (int) (Math.random() * size);
-            if (temp[y][x].getEmpty()) {                    // On génére les reine et leurs affecte déja l'id
+            if (temp[y][x].getEmpty() && temp[y][x].noBorder(x, y , size)) {                    // On génére les reine et leurs affecte déja l'id
                 MainFourmilliere.listFourmis.add(new Reine(num, new int[]{x, y}));
                 temp[y][x].setTypeFourmi("Reine");
                 temp[y][x].setId(num);
@@ -111,5 +111,17 @@ public class GUI {
         MainFourmilliere.board.revalidate();
         MainFourmilliere.board.repaint();
 
+    }
+
+    public static boolean isFreeCase(int y, int x) {
+        if (MainFourmilliere.temp[y][x].getTypeFourmi() == null)
+            return true;
+        return false;
+    }
+
+    public static boolean isValidCase(int y, int x) {
+        if (MainFourmilliere.temp[y][x] != null)
+            return true;
+        return false;
     }
 }
