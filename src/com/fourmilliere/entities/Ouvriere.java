@@ -4,7 +4,7 @@ package com.fourmilliere.entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.fourmilliere.main.MainFourmilliere.temp;
+import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
 
 public class Ouvriere extends Fourmi{
 
@@ -25,34 +25,34 @@ public class Ouvriere extends Fourmi{
     public  int[] getPositionFinal(String typeDeDeplacement) {
         // Ou elle est
         int[] positionInitial  = this.position;
-
         // Ou elle va
         int[] positionFinal;
+
         ArrayList<int[]> casesTargets = new ArrayList<int[]>();
         ArrayList<int[]> targets = new ArrayList<int[]>();
+        // Si on cherche des ressources
+        if(typeDeDeplacement.equals("cherche"))
+            targets = getDirectionPossible(this);
+        // Si on déja de ressources
+        else if(typeDeDeplacement.equals("rentre")){
+            targets = rentrer();
+            // Si la reine est juste à coté
+            if (targets == null){
+                nourrir();
+                targets = getDirectionPossible(this);
+            }
+        }
+        // Pour chaque déplacements dispo
+        for (int[] target: targets) {
 
-        if(typeDeDeplacement.equals("cherche"))                     // Si on cherche des ressources
-            targets = getDirectionPossible(this);           // on va recuperer les deplacement possible
-        else if(typeDeDeplacement.equals("rentre")){                // Si on a déja des ressources
-            targets = rentrer();                                // On rentre
-            if (targets == null){                               // Si on est a porter de la reine
-
-                nourrir();                                          // On l'a nourie
-                targets = getDirectionPossible(this);       // et on va recuperer les deplacement possible pour repartir
+            if(testSiCaseslibre(target))       {
+                casesTargets.add(target);
             }
         }
 
-        for (int[] target: targets) {                              // Ici on va recuperer les cases qui ce cache derriere le deplacement
-
-            if(testSiCaseslibre(target))       {             // Si la case est libre (pas de fourmi)
-                casesTargets.add(target);                   // On l'ajoute a la liste des cases target possible
-
-            }
-        }
-
-        if(casesTargets.size() != 0)                                // Si on a trouver des cases on fait un random dessus
+        if(casesTargets.size() != 0)
             positionFinal = randCase(casesTargets);
-        else                                                        // Sinon elle ne bougera pas
+        else
             positionFinal = positionInitial;
 
         return positionFinal;
@@ -61,9 +61,10 @@ public class Ouvriere extends Fourmi{
 
     public  boolean testSiCaseslibre(int[] caseATester) {
         try {
-            if (temp[caseATester[1]][caseATester[0]].getTypeFourmi() == null )
+            if (fourmiliere[caseATester[1]][caseATester[0]].getTypeFourmi() == null )
                 return true;
-            else if (temp[caseATester[1]][caseATester[0]].getTypeFourmi() == "Reine") {
+            else if (fourmiliere[caseATester[1]][caseATester[0]].getTypeFourmi() == "Reine" && this.inventaire != null) {
+                // Si on est a coté de la reine
                 nourrir();
                 return false;
             }
@@ -79,15 +80,17 @@ public class Ouvriere extends Fourmi{
     @Override
     public void seDeplacer() {
         int[] positionTarget;
-        if((this.inventaire == null)) {
-            positionTarget = getPositionFinal("cherche");
-            if (temp[positionTarget[1]][positionTarget[0]].typeRessource != null) {
-                this.inventaire = temp[positionTarget[1]][positionTarget[0]].getTypeRessource();
-                Case.clearCase(positionTarget);
-            }
+        if(this.inventaire != null) {
+            if (Reine.getReine(this.faction).getPosition() != null)
+                positionTarget = getPositionFinal("rentre");
+            else
+                positionTarget = getPositionFinal("cherche");
         }else{
-            //TODO: Si la reine est morte lancer getPositionFinal("cherche");
-            positionTarget = getPositionFinal("rentre");
+            positionTarget = getPositionFinal("cherche");
+            if (fourmiliere[positionTarget[1]][positionTarget[0]].typeRessource != null) {
+                this.inventaire = fourmiliere[positionTarget[1]][positionTarget[0]].getTypeRessource();
+                fourmiliere[positionTarget[1]][positionTarget[0]].typeRessource = null;
+            }
         }
         int[] positionInitial = this.getPosition();
         Case.clearCase(positionInitial);
@@ -97,21 +100,28 @@ public class Ouvriere extends Fourmi{
 
     }
 
+    /**
+     * Va comparer la position x et y de la reine par rapport à la fourmi
+     * pour avoir des positions disponibles plus pertinentes
+     *
+     * @return Liste de déplacements possibles
+     */
     public ArrayList<int[]>  rentrer() {
+
         int[] positionActuel = this.position;
-        // TODO: if getreine() = NULL ==> errer jusqu'a ce qu'une guerriere la mange
         int[] positionReine = Reine.getReine(this.faction).getPosition();
         ArrayList<int[]> positionDispo= new ArrayList<int[]>();
 
         if (positionActuel[1] > positionReine[1]-1){
             // "x-1"
-            positionDispo.add(new int[]{positionActuel[0],positionActuel[1]-1}); //droite
+            positionDispo.add(new int[]{positionActuel[0],positionActuel[1]-1}); //gauche
         }
         else if(positionActuel[1] < positionReine[1]+1) {
             //  "x+1"
-            positionDispo.add(new int []{positionActuel[0], positionActuel[1]+1 }); //gauche
+            positionDispo.add(new int []{positionActuel[0], positionActuel[1]+1 }); //droite
         }
         else if(positionActuel[1] == positionReine[1]) {
+            // Si il est a coté de la reine i
             if (positionActuel[0] == positionReine[0] - 1 || positionActuel[0] == positionReine[0] + 1) {
                 return null;
             }
@@ -119,11 +129,11 @@ public class Ouvriere extends Fourmi{
 
         if (positionActuel[0] > positionReine[0]-1){
             // "y-1"
-            positionDispo.add(new int[]{positionActuel[0]-1,positionActuel[1]}); //droite
+            positionDispo.add(new int[]{positionActuel[0]-1,positionActuel[1]}); //haut
         }
         else if(positionActuel[0] < positionReine[0]+1) {
             //  "y+1"
-            positionDispo.add(new int []{positionActuel[0]+1, positionActuel[1] }); //gauche
+            positionDispo.add(new int []{positionActuel[0]+1, positionActuel[1] }); //bas
         }
         else if(positionActuel[0] == positionReine[0]) {
             // Si il est a coté de la reine i
@@ -136,10 +146,11 @@ public class Ouvriere extends Fourmi{
     }
 
     public void nourrir() {
+        System.out.println("ON NOURRIT LA REINE AVEC " + this.inventaire);
         Reine reine = Reine.getReine(this.faction);
         if(this.inventaire == "EAU")
             reine.setWater(reine.getWater()+1);
-        else if(this.inventaire == "FRUIT")
+        else if(this.inventaire == "FRUITS")
             reine.setFood(reine.getFood()+1);
         this.inventaire = null;
     }

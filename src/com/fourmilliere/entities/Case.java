@@ -1,7 +1,6 @@
 package com.fourmilliere.entities;
 
-import static com.fourmilliere.main.MainFourmilliere.listFourmis;
-import static com.fourmilliere.main.MainFourmilliere.temp;
+import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
 
 public class Case {
 
@@ -35,7 +34,7 @@ public class Case {
     }
 
     public Boolean getEmpty() {
-        return empty;
+        return this.empty;
     }
 
     public boolean noBorder(int x, int y, int size) {
@@ -101,11 +100,10 @@ public class Case {
     }
 
     public static void clearCase(int[] positionTarget) {
-            temp[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
-            temp[positionTarget[1]][positionTarget[0]].setTypeRessource(null);
-            temp[positionTarget[1]][positionTarget[0]].setId(0);
+            fourmiliere[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
+            fourmiliere[positionTarget[1]][positionTarget[0]].setId(0);
             // On remet la couleur en noir
-            temp[positionTarget[1]][positionTarget[0]].setFaction(new Faction());
+            fourmiliere[positionTarget[1]][positionTarget[0]].setFaction(new Faction());
 
     }
 
@@ -114,15 +112,15 @@ public class Case {
         System.out.println("addFourmiToCase => " + getClass);
 
             if(getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
-                temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
+                fourmiliere[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
             }
             if(getClass.equals("class com.fourmilliere.entities.Guerriere")) {
-                temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Guerriere");
+                fourmiliere[positionTarget[1]][positionTarget[0]].setTypeFourmi("Guerriere");
             }
 
-            temp[positionTarget[1]][positionTarget[0]].setId(fourmi.getId());
+            fourmiliere[positionTarget[1]][positionTarget[0]].setId(fourmi.getId());
             // On remet la couleur de la fourmi
-            temp[positionTarget[1]][positionTarget[0]].setFaction(fourmi.getFaction());
+            fourmiliere[positionTarget[1]][positionTarget[0]].setFaction(fourmi.getFaction());
 
     }
 }

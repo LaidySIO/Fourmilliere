@@ -1,10 +1,11 @@
-# Fourmillière
+# Fourmillière 
+![](src/com/fourmilliere/Files/queen.png)
 
 ### Lancement de l'application : 
 
   - Lancer MainFourmilliere.main()
   - Saisir les parametres : 
-    - Nombre de cases
+    - Nombre de cases (min: 10 | max: 99)
     - Nombre de colonie
     - % de rareté des rassources
     

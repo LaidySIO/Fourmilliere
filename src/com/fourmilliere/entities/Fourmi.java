@@ -2,14 +2,13 @@ package com.fourmilliere.entities;
 
 import com.fourmilliere.dao.IActions;
 import com.fourmilliere.ihm.Start;
-import com.fourmilliere.main.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.fourmilliere.main.MainFourmilliere.listFourmis;
+import static com.fourmilliere.main.MainFourmiliere.listFourmis;
 
 
 public abstract class Fourmi  implements IActions{
@@ -21,7 +20,7 @@ public abstract class Fourmi  implements IActions{
 
     /**
      * Fonction pour faire une liste des direction possible
-     * @return
+     * @return Liste des déplacements disponibles
      */
     public static ArrayList<int[]> getDirectionPossible(Fourmi fourmis)
     {
@@ -30,12 +29,23 @@ public abstract class Fourmi  implements IActions{
         int[] positionActuel = fourmis.getPosition(); // on recupere la position de notre fourmis
         // recupère positionActuel avec maj des positions possibles
         int[] positionActuelTemp;
-
+        // Si la fourmi est au bord à gauche
+        /*
+        *   x o o
+        *   x o o
+        *   x o o
+        */
         if(positionActuel[1] == 0) {
             // Tableau positionActuelTemp = positionActuel int[y,x] avec x+1
             positionActuelTemp = new int[]{positionActuel[0],positionActuel[1] + 1};
             positionDispo.add(positionActuelTemp); //droite
         }
+        // Si la fourmi est au bord à droite
+        /*
+         *   o o x
+         *   o o x
+         *   o o x
+         */
         else if(positionActuel[0] == Start.size -1) {
             // Tableau positionActuelTemp = positionActuel int[y,x] avec x-1
             positionActuelTemp = new int []{positionActuel[0], positionActuel[1] - 1};
@@ -48,12 +58,23 @@ public abstract class Fourmi  implements IActions{
             positionActuelTemp = new int []{positionActuel[0], positionActuel[1] - 1};
             positionDispo.add(positionActuelTemp); //gauche
         }
-
+        // Si la fourmi est au bord en haut
+        /*
+         *   x x x
+         *   o o o
+         *   o o o
+         */
         if(positionActuel[0] == 0) {
             // Tableau positionActuelTemp = positionActuel int[y,x] avec y+1
             positionActuelTemp = new int[]{positionActuel[0] + 1, positionActuel[1]};
             positionDispo.add(positionActuelTemp); //bas
         }
+        // Si la fourmi est au bord en bas
+        /*
+         *   o o o
+         *   o o o
+         *   x x x
+         */
         else if(positionActuel[1] == Start.size -1) {
             // Tableau positionActuelTemp = positionActuel int[y,x] avec y-1
             positionActuelTemp = new int[]{positionActuel[0] - 1, positionActuel[1]};
@@ -72,6 +93,11 @@ public abstract class Fourmi  implements IActions{
 
     }
 
+    /**
+     *
+     * @param directions List des déplacement disponibles
+     * @return coordonnées (int[]) d'un emplacement disponible parmi ceux disponibles
+     */
     public static int[] randCase(ArrayList<int[]> directions)
     {
         int randomNum = ThreadLocalRandom.current().nextInt(0, directions.size());

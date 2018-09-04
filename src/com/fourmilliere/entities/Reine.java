@@ -1,13 +1,10 @@
 package com.fourmilliere.entities;
 
-import com.fourmilliere.ihm.GUI;
-import com.fourmilliere.main.MainFourmilliere;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.fourmilliere.main.MainFourmilliere.listFourmis;
-import static com.fourmilliere.main.MainFourmilliere.temp;
+import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
+import static com.fourmilliere.main.MainFourmiliere.listFourmis;
 
 public class Reine extends Fourmi {
 
@@ -15,25 +12,31 @@ public class Reine extends Fourmi {
     private int food = 0;
 
     public Reine(int id, Faction faction, int[] position) {
+
         this.id = id;
         this.faction = faction;
-
         this.position = position;
         this.alive = true;
     }
 
+    /**
+     * La reine va donner naissance à une fourmi
+     * elle cherche un emplacement libre
+     */
     public void donnerVie() {
+
         int[] position = this.getPosition();
         int naissance = 0;
-        System.out.println("Position de la reine au début du jeu : x " + position[0] + " y : " + position[1]);
+        System.out.println("Position de la reine N° "+ this.id +" au début du jeu : x " + position[0] + " y : " + position[1]);
         int[] positionTemp = new int[2];
+        // TODO : Si aucune place de libre autour de la reine essayer d'élargir le scope
         int directionPos = getDirectionPossible(this).size();
         int loop = 0;
 
-        while (naissance < 3){
+        for (int i =0; i<=3;i++){
             position = randCase(getDirectionPossible(this));
             try {
-                if (MainFourmilliere.temp[position[1]][position[0]].typeFourmi == null && MainFourmilliere.temp[position[1]][position[0]] != null) {
+                if (fourmiliere[position[1]][position[0]].typeFourmi == null && fourmiliere[position[1]][position[0]] != null) {
                     positionTemp = position;
                     switch (naissance) {
                         case 0:
@@ -44,8 +47,8 @@ public class Reine extends Fourmi {
                             break;
                         case 2:
                             // Random 1 ou 2
+                            // Random pour la troisième fourmi
                             int x = (int) (Math.random() * 2 + 1);
-                            System.out.println("Random pour la troisième fourmi : " + x);
                             if (x < 2) {
                                 actionDonnerVie(positionTemp, "Ouvriere");
                                 break;
@@ -57,26 +60,30 @@ public class Reine extends Fourmi {
                     }
                     loop++;
                     naissance++;
-
                 }
             }catch (ArrayIndexOutOfBoundsException e){
-                System.out.println("une reine a essayer de donner vie a la position :"+positionTemp[1] +" , "+positionTemp[0]+" sans succes car la case n'existe pas");
 
+                System.out.println("une reine a essayer de donner vie a la position :"+positionTemp[1] +" , "+positionTemp[0]+" sans succes car la case n'existe pas");
             }
         }
     }
 
+    /**
+     * Ajoute un nouvelle fourmi dans la fourmiliere
+     * @param positionTemp Position de la fourmi qui va naitre
+     * @param type Ouvrière ou Guerrière
+     */
     public void actionDonnerVie(int[] positionTemp, String type) {
+        // Calcul du prochain id a attribuer
         int nextId = listFourmis.size() - 1;
         if (type.equals("Ouvriere")){
             listFourmis.add(new Ouvriere(nextId, this.faction, positionTemp));
         }
-
         else {
             listFourmis.add(new Guerriere(nextId, this.faction, positionTemp));
         }
-        temp[positionTemp[1]][positionTemp[0]].setTypeFourmi(type);
-        temp[positionTemp[1]][positionTemp[0]].setId(nextId);
+        fourmiliere[positionTemp[1]][positionTemp[0]].setTypeFourmi(type);
+        fourmiliere[positionTemp[1]][positionTemp[0]].setId(nextId);
         System.out.println("Naissance d'une "+ type +" au debut du jeu = " + listFourmis.get(listFourmis.size() - 1).toString());
 
     }
@@ -93,9 +100,6 @@ public class Reine extends Fourmi {
         }
         return null;
     }
-
-
-
 
     public int getWater() {
         return water;
@@ -123,5 +127,14 @@ public class Reine extends Fourmi {
                 ", position=" + Arrays.toString(position) +
                 ", alive=" + alive +
                 '}';
+    }
+
+    public void checkRessource() {
+        if (getFood() > 0 && getWater() > 0) {
+            System.out.println("La reine accouche !! ");
+            this.donnerVie();
+            this.setFood(this.getFood() - 1);
+            this.setWater(this.getWater() - 1);
+        }
     }
 }
