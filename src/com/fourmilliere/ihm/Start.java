@@ -54,6 +54,14 @@ public class Start extends JFrame {
         // Boite de dialogue paramètres du jeu
         JPanel myPanel = new JPanel();
 
+        myPanel.add(new JLabel("INSTRUCTIONS : "));
+        myPanel.add(new JLabel("Veuillez saisir une taille supérieure à 3"));
+        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+        myPanel.add(new JLabel("Veuillez saisir un nombre de colonie inférieure à la taille"));
+        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+        myPanel.add(new JLabel("Veuillez saisir un % de ressources max :  100"));
+        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
         myPanel.add(new JLabel("Nombre de case :"));
         myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
         myPanel.add(taille);
@@ -83,11 +91,10 @@ public class Start extends JFrame {
                 rare = Integer.parseInt(rarete.getText());
 
                 if (size < 3
-                        && nbColonies > size
-                        && rare > 100) {
-                    dialogErrorBox("Veuillez saisir une taille >= à 3\n" +
-                            "Veuillez saisir un nombre de colonie < à la taille\n" +
-                            "Veuillez saisir un % de ressources <= 100");
+                        || nbColonies > size
+                        || rare > 100) {
+                    dialogErrorBox("Veuillez suivre les instructions ! ");
+                    new Start();
                 }
 
 
