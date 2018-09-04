@@ -4,19 +4,9 @@ import com.fourmilliere.entities.Fourmi;
 import com.fourmilliere.entities.Guerriere;
 import com.fourmilliere.entities.Ouvriere;
 import com.fourmilliere.entities.Reine;
-import com.fourmilliere.main.MainFourmilliere;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.ArrayList;
 
 import static com.fourmilliere.main.MainFourmilliere.gameOver;
 import static com.fourmilliere.main.MainFourmilliere.listFourmis;
@@ -81,54 +71,46 @@ public class Start extends JFrame {
                 String getClass = listFourmis.get(i).getClass().toString();
                 if (getClass.equals("class com.fourmilliere.entities.Reine")) {
                     Reine reine = (Reine) listFourmis.get(i);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        System.out.println("Exception e : " + e);
-                    }
 
                     reine.donnerVie();
                     GUI.regenerate();
                 }
-
-                /*else if( getClass.equals( "class com.fourmilliere.entities.Ouvriere")){
-                    Ouvriere ouvriere = (Ouvriere) listFourmis.get(i);
-                        ouvriere.seDeplacer();
-                        GUI.regenerate();
-                        System.out.println("ouvriere : " + ouvriere.toString());
-                    }*/
             }
             while (!gameOver) {
                 for (int i = 0; i < listFourmis.size(); i++) {
-                    String getClass = listFourmis.get(i).getClass().toString();
-                    if (getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
-                        Ouvriere ouvriere = (Ouvriere) listFourmis.get(i);
-                        ouvriere.seDeplacer();
-                        GUI.regenerate();
+                    // TODO: MAJ de la liste des fourmis en cas de mort
+                    if (listFourmis.get(i).isAlive()) {
+                        String getClass = listFourmis.get(i).getClass().toString();
+                        if (getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
+                            Ouvriere ouvriere = (Ouvriere) listFourmis.get(i);
+                            ouvriere.seDeplacer();
 
-                        System.out.println("ouvriere : " + ouvriere.toString());
+                            System.out.println("ouvriere : " + ouvriere.toString());
+                        }
+                        if (getClass.equals("class com.fourmilliere.entities.Guerriere")) {
+                            Guerriere guerriere = (Guerriere) listFourmis.get(i);
+                            guerriere.seDeplacer();
+
+                            System.out.println("guerriere : " + guerriere.toString());
+                        }
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             System.out.println("Exception e : " + e);
                         }
                     }
-                    if (getClass.equals("class com.fourmilliere.entities.Guerriere")) {
-                        Guerriere guerriere = (Guerriere) listFourmis.get(i);
-                        guerriere.seDeplacer();
-                        GUI.regenerate();
-
-                        System.out.println("guerriere : " + guerriere.toString());
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            System.out.println("Exception e : " + e);
-                        }
-                    }
+                    GUI.regenerate();
                 }
             }
-
-
+        }
+    }
+    // Maj de la liste
+    private void refreshListFourmis() {
+        ArrayList<Fourmi> arrayListTemp = listFourmis;
+        for (int i = 0; i < arrayListTemp.size(); i++) {
+            if (!arrayListTemp.get(i).isAlive()) {
+                listFourmis.remove(arrayListTemp);
+            }
         }
     }
 

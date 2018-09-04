@@ -1,5 +1,8 @@
 package com.fourmilliere.entities;
 
+import static com.fourmilliere.main.MainFourmilliere.listFourmis;
+import static com.fourmilliere.main.MainFourmilliere.temp;
+
 public class Case {
 
     int x = 0;
@@ -85,7 +88,7 @@ public class Case {
 
         if (this.typeFourmi != null)
         {
-            return this.typeFourmi.toString();
+            return this.typeFourmi.toString() + " - " + this.getId();
         }
         else if ((this.typeRessource != null)){
             return this.typeRessource.toString();
@@ -94,6 +97,32 @@ public class Case {
         else {
             return "";
         }
+
+    }
+
+    public static void clearCase(int[] positionTarget) {
+            temp[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
+            temp[positionTarget[1]][positionTarget[0]].setTypeRessource(null);
+            temp[positionTarget[1]][positionTarget[0]].setId(0);
+            // On remet la couleur en noir
+            temp[positionTarget[1]][positionTarget[0]].setFaction(new Faction());
+
+    }
+
+    public static void addFourmiToCase(int[] positionTarget, Fourmi fourmi) {
+        String getClass = fourmi.getClass().toString();
+        System.out.println("addFourmiToCase => " + getClass);
+
+            if(getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
+                temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
+            }
+            if(getClass.equals("class com.fourmilliere.entities.Guerriere")) {
+                temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Guerriere");
+            }
+
+            temp[positionTarget[1]][positionTarget[0]].setId(fourmi.getId());
+            // On remet la couleur de la fourmi
+            temp[positionTarget[1]][positionTarget[0]].setFaction(fourmi.getFaction());
 
     }
 }

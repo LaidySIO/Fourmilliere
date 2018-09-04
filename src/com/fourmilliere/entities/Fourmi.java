@@ -5,7 +5,11 @@ import com.fourmilliere.ihm.Start;
 import com.fourmilliere.main.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static com.fourmilliere.main.MainFourmilliere.listFourmis;
 
 
 public abstract class Fourmi  implements IActions{
@@ -21,30 +25,6 @@ public abstract class Fourmi  implements IActions{
      */
     public static ArrayList<int[]> getDirectionPossible(Fourmi fourmis)
     {
-        /*
-        ArrayList<String> positionDispo= new ArrayList<String>();
-        int[] positionActuel = fourmis.getPosition(); // on recupere la position de notre fourmis
-
-        if(positionActuel[0] == 0)
-            positionDispo.add("y+1"); //bas
-        else if(positionActuel[0] == Start.size-1)
-            positionDispo.add("y-1"); //haut
-        else{
-            positionDispo.add("y-1"); //haut
-            positionDispo.add("y+1"); //bas
-        }
-
-        if(positionActuel[1] == 0)
-            positionDispo.add("x+1"); //droite
-        else if(positionActuel[1] == Start.size-1)
-            positionDispo.add("x-1"); //gauche
-        else{
-            positionDispo.add("x+1"); //droite
-            positionDispo.add("x-1"); //gauche
-        }
-
-        return positionDispo;
-        */
 
         ArrayList<int[]> positionDispo= new ArrayList<int[]>();
         int[] positionActuel = fourmis.getPosition(); // on recupere la position de notre fourmis
@@ -133,5 +113,31 @@ public abstract class Fourmi  implements IActions{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Fourmi findById(int id) {
+        for (Fourmi f : listFourmis) {
+            if (f.getId() == id){
+                return f;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Fourmi)) return false;
+        Fourmi fourmi = (Fourmi) o;
+        return getId() == fourmi.getId() &&
+                isAlive() == fourmi.isAlive() &&
+                Objects.equals(getFaction(), fourmi.getFaction()) &&
+                Arrays.equals(getPosition(), fourmi.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId());
     }
 }

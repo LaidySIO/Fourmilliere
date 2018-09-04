@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.lang.*;
 import java.util.ArrayList;
 
+import static com.fourmilliere.main.MainFourmilliere.board;
 import static com.fourmilliere.main.MainFourmilliere.temp;
 
 public class GUI {
@@ -26,7 +27,7 @@ public class GUI {
         MainFourmilliere.index = new JTextField[size][size];
         MainFourmilliere.frame.setSize(500, 500);
         JPanel panel = new JPanel();
-        MainFourmilliere.board.setLayout(new GridLayout(size, size));
+        board.setLayout(new GridLayout(size, size));
         sudoku = generate(size, nbColonies, rarete);
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) {
@@ -36,9 +37,9 @@ public class GUI {
                     MainFourmilliere.index[i][j].setFont(new Font("Verdana",Font.BOLD,13));
                 MainFourmilliere.index[i][j].setText(sudoku[i][j].toString());
                 MainFourmilliere.index[i][j].setEditable(false);
-                MainFourmilliere.board.add(MainFourmilliere.index[i][j]);
+                board.add(MainFourmilliere.index[i][j]);
             }
-        MainFourmilliere.frame.getContentPane().add(MainFourmilliere.board);
+        MainFourmilliere.frame.getContentPane().add(board);
         MainFourmilliere.frame.setVisible(true);
     }
 
@@ -72,24 +73,21 @@ public class GUI {
 
         // Insertion aléatoire des reines dans la grille
         int num = nbColonies;
+        int cptId = 0;
         while (num > 0) {
-            int x = (int) (Math.random() * size);
-            int y = (int) (Math.random() * size);
+            int x = (int) (Math.random() * size - 1);
+            int y = (int) (Math.random() * size - 1);
             if (temp[y][x].getEmpty() && temp[y][x].noBorder(x, y , size)) {                    // On génére les reine et leurs affecte déja l'id
                 Faction f = new Faction(num);
-                MainFourmilliere.listFourmis.add(new Reine(f, new int[]{x, y}));
+                MainFourmilliere.listFourmis.add(new Reine(cptId, f, new int[]{x, y}));
                 temp[y][x].setTypeFourmi("Reine");
-                temp[y][x].setId(num);
+                temp[y][x].setId(cptId);
                 temp[y][x].setFaction(f);
+                cptId++;
                 num--;
             }
-            System.out.println( "testSiCaseslibre :" +temp[y][x].getTypeFourmi());
-
         }
-
-        for (Fourmi f : MainFourmilliere.listFourmis) {
-            System.out.println(f.toString());
-        }
+        
         return temp;
     }
 
@@ -103,18 +101,18 @@ public class GUI {
     }
 
     public static void regenerate() {
-        int size = temp.length -1;
-        MainFourmilliere.board.removeAll();
+        int size = temp.length;
+        board.removeAll();
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) {
                 MainFourmilliere.index[i][j] = new JTextField(1);
                 MainFourmilliere.index[i][j].setForeground(temp[i][j].getFaction().getColor());
                 MainFourmilliere.index[i][j].setText(temp[i][j].toString());
                 MainFourmilliere.index[i][j].setEditable(false);
-                MainFourmilliere.board.add(MainFourmilliere.index[i][j]);
+                board.add(MainFourmilliere.index[i][j]);
             }
-        MainFourmilliere.board.revalidate();
-        MainFourmilliere.board.repaint();
+        board.revalidate();
+        board.repaint();
 
     }
 
@@ -132,7 +130,9 @@ public class GUI {
 
     public static boolean isValidCase(int y, int x) {
         try {
-            if (MainFourmilliere.temp[y][x] != null)
+            if (MainFourmilliere.temp[y][x] != null
+                    && x < Start.size
+                    && y < Start.size)
                 return true;
         }
         catch (ArrayIndexOutOfBoundsException e){

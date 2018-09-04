@@ -11,7 +11,8 @@ public class Guerriere extends Fourmi{
     int victimes = 0;
 
 
-    public Guerriere(Faction faction, int[] position) {
+    public Guerriere(int id, Faction faction, int[] position) {
+        this.id = id;
         this.faction = faction;
         this.position = position;
         this.alive = true;
@@ -40,44 +41,51 @@ public class Guerriere extends Fourmi{
                 && !temp[positionTarget[1]][positionTarget[0]].getFaction().equals(this.getFaction())) {
             String typeFourmi = temp[positionTarget[1]][positionTarget[0]].typeFourmi;
 
+            System.out.println("*********************  Oulala !! Une "+typeFourmi+"  ***********************");
+
             // Dans tous les cas on doit liberer l'ancienne case de la guerriere
             GuerriereOutTOCase();
 
-            if (typeFourmi.equals("Reine")){
-                System.out.println("*********************  Oulala !! Une Reine  ***********************");
 
-                GuerriereGoTOCase(positionTarget);
-                victimes++;
-            }
-            if (typeFourmi.equals("Ouvriere")){
-                System.out.println("*********************  Oulala !! Une Ouvriere  ***********************");
-
-                GuerriereGoTOCase(positionTarget);
-                victimes++;
-            }
             if (typeFourmi.equals("Guerriere")){
-                System.out.println("*********************  Oulala !! Une Guerriere  ***********************");
                 int figth = (int) (Math.random() * 2 + 1);
 
                 // Elle gagne le combat
                 if (figth < 2){
                     // Elle gagne le combat : l''ancienne place de la guerriere est déja remis à vide
                     // on va écraser la guerriere adverse avec notre guerriere
+
+                    // ON set la case a null avant le depalcement
+                    temp[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
                     GuerriereGoTOCase(positionTarget);
                     victimes++;
                 }
-
             }
+            else{
+
+                GuerriereGoTOCase(positionTarget);
+                victimes++;
+            }
+            kill(temp[positionTarget[1]][positionTarget[0]].getId());
         }
     }
 
-    public void kill() {
-        kill();
+    public void kill(int ennemi) {
+        // TODO: Il faut recuperer l'id de la fourmi qui meurt et set alive() à false
+        int idEnnemi = ennemi;
+        Fourmi f = findById(idEnnemi);
+        if (f != null) {
+            f.setAlive(false);
+           System.out.println("Malheureusement la Fourmi " +f.toString() +" a été tué :(");
+        }
+
     }
 
     public void GuerriereGoTOCase(int[] positionTarget){
         this.setPosition(positionTarget);
+        Case.addFourmiToCase(positionTarget, this);
         temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Guerriere");
+        temp[positionTarget[1]][positionTarget[0]].setId(this.id);
         // On remet la couleur de l'ouvriere
         temp[positionTarget[1]][positionTarget[0]].setFaction(this.faction);
     }
@@ -85,9 +93,7 @@ public class Guerriere extends Fourmi{
     public void GuerriereOutTOCase(){
         int[] positionInitial;
         positionInitial = this.getPosition();
-        temp[positionInitial[1]][positionInitial[0]].setTypeFourmi(null);
-        // On remet la couleur en noir
-        temp[positionInitial[1]][positionInitial[0]].setFaction(new Faction());
+        Case.clearCase(positionInitial);
     }
 
     @Override

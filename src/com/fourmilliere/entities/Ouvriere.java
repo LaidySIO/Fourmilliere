@@ -9,7 +9,10 @@ import static com.fourmilliere.main.MainFourmilliere.temp;
 public class Ouvriere extends Fourmi{
 
     String inventaire = null;
-    public Ouvriere(Faction faction, int[] position) {
+
+
+    public Ouvriere(int id, Faction faction, int[] position) {
+        this.id = id;
         this.faction = faction;
         this.position = position;
         this.alive = true;
@@ -22,10 +25,7 @@ public class Ouvriere extends Fourmi{
     public  int[] getPositionFinal(String typeDeDeplacement) {
         // Ou elle est
         int[] positionInitial  = this.position;
-        System.out.println( "#################################" );
-        System.out.println( "la position initial etait x ="+positionInitial[1]+" , y = "+ positionInitial[0]);
-        System.out.println( "#################################" );
-        System.out.println( "type de deplacement : " + typeDeDeplacement );
+
         // Ou elle va
         int[] positionFinal;
         ArrayList<int[]> casesTargets = new ArrayList<int[]>();
@@ -36,7 +36,6 @@ public class Ouvriere extends Fourmi{
         else if(typeDeDeplacement.equals("rentre")){                // Si on a déja des ressources
             targets = rentrer();                                // On rentre
             if (targets == null){                               // Si on est a porter de la reine
-                System.out.println( "@@@@@ ON nouris notre reine !!!!!!!!   @@@@@@@@@@" );
 
                 nourrir();                                          // On l'a nourie
                 targets = getDirectionPossible(this);       // et on va recuperer les deplacement possible pour repartir
@@ -47,10 +46,6 @@ public class Ouvriere extends Fourmi{
 
             if(testSiCaseslibre(target))       {             // Si la case est libre (pas de fourmi)
                 casesTargets.add(target);                   // On l'ajoute a la liste des cases target possible
-                System.out.println( "on a validé la possibilité");
-
-            }else{
-                System.out.println( "on a pas validé la possibilité");
 
             }
         }
@@ -60,16 +55,12 @@ public class Ouvriere extends Fourmi{
         else                                                        // Sinon elle ne bougera pas
             positionFinal = positionInitial;
 
-        System.out.println( "#################################" );
-        System.out.println( "la position Final est    x ="+positionFinal[0]+" , y = "+ positionFinal[1]);
-        System.out.println( "#################################" );
         return positionFinal;
     }
 
 
     public  boolean testSiCaseslibre(int[] caseATester) {
         try {
-            System.out.println( "testSiCaseslibre :" +temp[caseATester[1]][caseATester[0]].getTypeFourmi());
             if (temp[caseATester[1]][caseATester[0]].getTypeFourmi() == null )
                 return true;
             else if (temp[caseATester[1]][caseATester[0]].getTypeFourmi() == "Reine") {
@@ -88,27 +79,21 @@ public class Ouvriere extends Fourmi{
     @Override
     public void seDeplacer() {
         int[] positionTarget;
-        if(this.inventaire == null) {
+        if((this.inventaire == null)) {
             positionTarget = getPositionFinal("cherche");
             if (temp[positionTarget[1]][positionTarget[0]].typeRessource != null) {
                 this.inventaire = temp[positionTarget[1]][positionTarget[0]].getTypeRessource();
-                temp[positionTarget[1]][positionTarget[0]].setTypeRessource(null);
-                // On remet la couleur en noir
-                temp[positionTarget[1]][positionTarget[0]].setFaction(new Faction());
+                Case.clearCase(positionTarget);
             }
         }else{
             //TODO: Si la reine est morte lancer getPositionFinal("cherche");
             positionTarget = getPositionFinal("rentre");
         }
         int[] positionInitial = this.getPosition();
-        temp[positionInitial[1]][positionInitial[0]].setTypeFourmi(null);
-        // On remet la couleur en noir
-        temp[positionInitial[1]][positionInitial[0]].setFaction(new Faction());
+        Case.clearCase(positionInitial);
 
         this.setPosition(positionTarget);
-        temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
-        // On remet la couleur de l'ouvriere
-        temp[positionTarget[1]][positionTarget[0]].setFaction(this.faction);
+        Case.addFourmiToCase(positionTarget,this);
 
     }
 
