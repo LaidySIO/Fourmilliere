@@ -87,7 +87,7 @@ public class GUI {
                 num--;
             }
         }
-        
+
         return temp;
     }
 

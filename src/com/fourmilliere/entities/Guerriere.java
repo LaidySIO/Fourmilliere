@@ -84,10 +84,6 @@ public class Guerriere extends Fourmi{
     public void GuerriereGoTOCase(int[] positionTarget){
         this.setPosition(positionTarget);
         Case.addFourmiToCase(positionTarget, this);
-        temp[positionTarget[1]][positionTarget[0]].setTypeFourmi("Guerriere");
-        temp[positionTarget[1]][positionTarget[0]].setId(this.id);
-        // On remet la couleur de l'ouvriere
-        temp[positionTarget[1]][positionTarget[0]].setFaction(this.faction);
     }
 
     public void GuerriereOutTOCase(){
