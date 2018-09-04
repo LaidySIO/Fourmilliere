@@ -1,10 +1,14 @@
 package com.fourmilliere.ihm;
 
+import com.fourmilliere.entities.Faction;
 import com.fourmilliere.entities.Guerriere;
 import com.fourmilliere.entities.Ouvriere;
 import com.fourmilliere.entities.Reine;
 
 import javax.swing.*;
+
+import java.util.HashSet;
+import java.util.Iterator;
 
 import static com.fourmilliere.main.MainFourmiliere.gameOver;
 import static com.fourmilliere.main.MainFourmiliere.listFourmis;
@@ -60,7 +64,7 @@ public class Start extends JFrame {
         myPanel.add(new JLabel("Veuillez saisir un nombre de colonie inférieure à la taille"));
         myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
         myPanel.add(new JLabel("Veuillez saisir un % de ressources max :  100"));
-        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+        myPanel.add(Box.createVerticalStrut(20));
 
         myPanel.add(new JLabel("Nombre de case :"));
         myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
@@ -93,13 +97,12 @@ public class Start extends JFrame {
                 if (size < 3
                         || nbColonies > size
                         || rare > 100) {
-                    dialogErrorBox("Veuillez suivre les instructions ! ");
-                    new Start();
+                    dialogBox("Veuillez suivre les instructions ! ", "Erreur de paramètre", false);
                 }
 
 
             } else {
-                dialogErrorBox("Veuillez saisir des chiffres !");
+                dialogBox("Veuillez saisir des chiffres !", "Erreur de paramètre", false);
                 new Start();
 
             }
@@ -144,10 +147,13 @@ public class Start extends JFrame {
     }
 
     public void gameLoop() {
+        HashSet<Faction> faction = new HashSet();
+
         while (!gameOver) {
+            faction = new HashSet();
             for (int i = 0; i < listFourmis.size(); i++) {
-                // TODO: MAJ de la liste des fourmis en cas de mort
                 if (listFourmis.get(i).isAlive()) {
+                    faction.add(listFourmis.get(i).getFaction());
                     String getClass = listFourmis.get(i).getClass().toString();
                     if (getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
                         Ouvriere ouvriere = (Ouvriere) listFourmis.get(i);
@@ -176,14 +182,56 @@ public class Start extends JFrame {
                     }
                 }
             }
+            if(faction.size()==1 && Integer.parseInt(colonies.getText()) > 1) {
+                break;
+            }
+
+        }
+        try {
+            Thread.sleep(5000);
+            // Pour parcourir le Set<>
+            Iterator<Faction> itr=faction.iterator();
+
+            while(itr.hasNext()){
+                Faction gagnant = itr.next();
+                dialogWinBox("Bravo a la colonie : "+gagnant.getId(),gagnant);
+                break;
+            }
+
+            System.exit(0);
+        } catch (InterruptedException e) {
+            System.out.println("Exception e : " + e);
         }
     }
 
-    public void dialogErrorBox(String msg) {
+    public void dialogBox(String msg, String title, boolean win) {
         taille.setText("");
         colonies.setText("");
         rarete.setText("");
         JOptionPane.showMessageDialog(null, new JPanel().add(new JLabel(msg)),
                 "Erreur de parametre ", JOptionPane.OK_OPTION);
+        if (!win) {
+            new Start();
+        }
+
+    }
+
+    public void dialogWinBox(String msg, Faction faction) {
+
+        dialogBox("La faction N°" + faction.getId() + " a gagné !! ", msg, true);
+
+        JPanel myPanel = new JPanel();
+        myPanel.add(new JLabel("Souhaitez-vous relancer une simulation ? "));
+
+        int result = JOptionPane.showConfirmDialog(null, myPanel,
+                "Victoire", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            dialogBox("C'est reparti ! ", "Fin de la simulation. ", false);
+        }
+        else {
+            dialogBox("Au revoir ", "Fin de la simulation.", true);
+            System.exit(0);
+        }
     }
 }

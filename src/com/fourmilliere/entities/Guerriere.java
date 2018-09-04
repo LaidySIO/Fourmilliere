@@ -63,25 +63,26 @@ public class Guerriere extends Fourmi{
 
                     // ON set la case a null avant le depalcement
                     fourmiliere[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
+                    kill(fourmiliere[positionTarget[1]][positionTarget[0]].getId());
                     GuerriereGoTOCase(positionTarget);
                     victimes++;
                 }
             }
             else{
-
+                fourmiliere[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
+                kill(fourmiliere[positionTarget[1]][positionTarget[0]].getId());
                 GuerriereGoTOCase(positionTarget);
                 victimes++;
             }
-            kill(fourmiliere[positionTarget[1]][positionTarget[0]].getId());
         }
     }
 
     public void kill(int ennemi) {
-        // TODO: Il faut recuperer l'id de la fourmi qui meurt et set alive() à false
         int idEnnemi = ennemi;
         Fourmi f = findById(idEnnemi);
         if (f != null) {
             f.setAlive(false);
+
            System.out.println("Malheureusement la Fourmi " +f.toString() +" a été tué :(");
         }
 
