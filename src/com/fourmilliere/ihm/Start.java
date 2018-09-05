@@ -7,6 +7,7 @@ import com.fourmilliere.entities.Reine;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -55,15 +56,19 @@ public class Start extends JFrame {
     }
 
     public boolean gameParams() {
-        // Boite de dialogue paramètres du jeu
-        JPanel myPanel = new JPanel();
 
-        myPanel.add(new JLabel("INSTRUCTIONS : "));
-        myPanel.add(new JLabel("Veuillez saisir une taille supérieure à 3"));
-        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
-        myPanel.add(new JLabel("Veuillez saisir un nombre de colonie inférieure à la taille"));
-        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
-        myPanel.add(new JLabel("Veuillez saisir un % de ressources max :  100"));
+        // Boite de dialogue paramètres du jeu
+
+        String instructions = "<HTML>" +
+                "INSTRUCTIONS : <BR><BR>" +
+                "Veuillez saisir un nombre de case supérieure à 3 <BR>" +
+                "Veuillez saisir un nombre de colonie inférieure au nombre de case <BR>" +
+                "Veuillez saisir un % de ressources max :  100 <BR>" +
+                "</HTML>";
+        JPanel myPanel = new JPanel();
+        JLabel myLabel = new JLabel(instructions);
+        myLabel.setForeground(Color.RED);
+        myPanel.add(myLabel);
         myPanel.add(Box.createVerticalStrut(20));
 
         myPanel.add(new JLabel("Nombre de case :"));
