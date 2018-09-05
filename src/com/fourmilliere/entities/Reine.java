@@ -1,7 +1,6 @@
 package com.fourmilliere.entities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
 import static com.fourmilliere.main.MainFourmiliere.listFourmis;
@@ -10,6 +9,7 @@ public class Reine extends Fourmi {
 
     private int water = 0;
     private int food = 0;
+    private int nbNaissance = 0;
 
     public Reine(int id, Faction faction, int[] position) {
 
@@ -74,6 +74,8 @@ public class Reine extends Fourmi {
      * @param type Ouvrière ou Guerrière
      */
     public void actionDonnerVie(int[] positionTemp, String type) {
+        // On incrémente le compteur des naissances
+        this.setNbNaissance(getNbNaissance() + 1);
         // Calcul du prochain id a attribuer
         int nextId = listFourmis.size();
         if (type.equals("Ouvriere")){
@@ -117,6 +119,14 @@ public class Reine extends Fourmi {
         this.food = food;
     }
 
+    public int getNbNaissance() {
+        return nbNaissance;
+    }
+
+    public void setNbNaissance(int nbNaissance) {
+        this.nbNaissance = nbNaissance;
+    }
+
     @Override
     public String toString() {
         return "Reine{" +
@@ -136,5 +146,30 @@ public class Reine extends Fourmi {
             this.setFood(this.getFood() - 1);
             this.setWater(this.getWater() - 1);
         }
+    }
+
+    /**
+     * Compare le nombre de naissance des reines
+     */
+
+    public static Comparator<Reine> CompareNaissances = new Comparator<Reine>() {
+
+        @Override
+        public int compare(Reine r1, Reine r2) {
+
+            return Integer.compare(r2.getNbNaissance(),r1.getNbNaissance());
+        }
+    };
+
+    /**
+     *
+     * @param liste : liste des reines de la liste listFourmi
+     * @return Retourne la liste des reines selon le nombre de naissance
+     */
+    public static List<Reine> sortByNaissance(List<Reine> liste) {
+        List<Reine> sortedList = liste;
+
+        Collections.sort(sortedList, Reine.CompareNaissances);
+        return sortedList;
     }
 }

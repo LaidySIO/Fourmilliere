@@ -1,13 +1,11 @@
 package com.fourmilliere.ihm;
 
-import com.fourmilliere.entities.Faction;
-import com.fourmilliere.entities.Guerriere;
-import com.fourmilliere.entities.Ouvriere;
-import com.fourmilliere.entities.Reine;
+import com.fourmilliere.entities.*;
 
 import javax.swing.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -42,15 +40,14 @@ public class Start extends JFrame {
         // Init des parametres du jeu
         paramsValidate = gameParams();
 
-        if(paramsValidate)  {
+        if (paramsValidate) {
             // Reine
             // Au lancement du jeu les reines accouchent
             naissance();
 
             // Boucle du jeu
             gameLoop();
-        }
-        else {
+        } else {
             System.exit(0);
         }
     }
@@ -174,7 +171,7 @@ public class Start extends JFrame {
                     }
 
                     if (getClass.equals("class com.fourmilliere.entities.Reine")) {
-                        Reine reine  = (Reine) listFourmis.get(i);
+                        Reine reine = (Reine) listFourmis.get(i);
                         reine.checkRessource();
                         System.out.println("Reine : " + reine.toString());
                     }
@@ -188,7 +185,7 @@ public class Start extends JFrame {
                     }
                 }
             }
-            if(faction.size()==1 && Integer.parseInt(colonies.getText()) > 1) {
+            if (faction.size() == 1 && Integer.parseInt(colonies.getText()) > 1) {
                 break;
             }
 
@@ -196,11 +193,11 @@ public class Start extends JFrame {
         try {
             Thread.sleep(1000);
             // Pour parcourir le Set<>
-            Iterator<Faction> itr=faction.iterator();
+            Iterator<Faction> itr = faction.iterator();
 
-            while(itr.hasNext()){
+            while (itr.hasNext()) {
                 Faction gagnant = itr.next();
-                dialogWinBox("Bravo a la colonie : "+gagnant.getId(),gagnant);
+                dialogWinBox("Bravo a la colonie : " + gagnant.getId(), gagnant);
                 break;
             }
 
@@ -229,9 +226,11 @@ public class Start extends JFrame {
 
     }
 
-    public void dialogWinBox(String msg, Faction faction) {
+    public void dialogWinBox(String title, Faction faction) {
 
-        dialogBox("La faction N°" + faction.getId() + " a gagné !! ", msg, true);
+        String statsMessage = getStatMessage(faction);
+
+        dialogBox(statsMessage, title, true);
 
         JPanel myPanel = new JPanel();
         myPanel.add(new JLabel("Souhaitez-vous relancer une simulation ? "));
@@ -241,10 +240,157 @@ public class Start extends JFrame {
 
         if (result == JOptionPane.OK_OPTION) {
             dialogBox("C'est reparti ! ", "Fin de la simulation. ", false);
-        }
-        else {
+        } else {
             dialogBox("Au revoir ", "Fin de la simulation.", true);
             System.exit(0);
         }
+    }
+
+    public String getStatMessage(Faction f) {
+
+        String msg = "<HTML>";
+        msg += "La Faction N°" + f.getId() + " a gagné !! <BR><BR>";
+        msg += getStatGuerriereMessage();
+        msg += getStatReineMessage();
+        msg += getStatOuvriereMessage();
+
+        msg += "</HTML>";
+
+        return msg;
+
+    }
+
+    /*private String getStatMessage(String fourmiType) {
+
+        String msg = String msg = "Classement des " + fourmiType + " : <BR>";
+
+        for (int i = 0; i < 3; i++) {
+
+            if (fourmiType.equals("Guerriere")) {
+                ArrayList<Guerriere> bestFourmi = getBestGuerriere();
+            }
+            if (fourmiType.equals("Ouvriere")) {
+                ArrayList<Ouvriere> bestFourmi = getBestOuvriere();
+            }
+            else {
+                ArrayList<Reine> bestFourmi = getBestReine();
+            }
+
+            msg += "N°" + (i + 1)
+                    + " La guerrière " + bestFourmi.get(i).getId()
+                    + " de la Faction " + bestGuerriere.get(i).getFaction().getId()
+
+        }
+    }*/
+
+    public String getStatGuerriereMessage() {
+
+        ArrayList<Guerriere> bestGuerriere = getBestGuerriere();
+
+        String msg = "Classement des Guerrières : <BR>";
+        for (int i = 0; i < bestGuerriere.size(); i++) {
+            msg += "N°" + (i + 1)
+                    + " La guerrière " + bestGuerriere.get(i).getId()
+                    + " de la Faction " + bestGuerriere.get(i).getFaction().getId()
+                    + " avec " + bestGuerriere.get(i).getVictimes() + " victimes <br>";
+
+            // Si on a les 3 meilleurs Guerrières
+            if (i == 2) {
+                break;
+            }
+        }
+        msg += "<BR><BR>";
+        return msg;
+    }
+
+    public String getStatReineMessage() {
+
+        ArrayList<Reine> bestReine = getBestReine();
+
+        String msg = "Classement des Reines : <BR>";
+        for (int i = 0; i < bestReine.size(); i++) {
+            msg += "N°" + (i + 1)
+                    + " La Reine " + bestReine.get(i).getId()
+                    + " de la Faction " + bestReine.get(i).getFaction().getId()
+                    + " a donné vie à " + bestReine.get(i).getNbNaissance() + "  fourmis  <br>";
+
+            // Si on a les 3 meilleurs Reines
+            if (i == 2) {
+                break;
+            }
+        }
+        msg += "<BR><BR>";
+        return msg;
+    }
+
+    public String getStatOuvriereMessage() {
+
+        ArrayList<Ouvriere> bestOuvriere = getBestOuvriere();
+
+        String msg = "Classement des Ouvriere : <BR>";
+        for (int i = 0; i < bestOuvriere.size(); i++) {
+            msg += "N°" + (i + 1)
+                    + " L'ouvriere " + bestOuvriere.get(i).getId()
+                    + " de la Faction " + bestOuvriere.get(i).getFaction().getId()
+                    + " a nourri " + bestOuvriere.get(i).getNbNourrir() + "  fois sa reine  <br>";
+
+            // Si on a les 3 meilleurs Reines
+            if (i == 2) {
+                break;
+            }
+        }
+        msg += "<BR><BR>";
+        return msg;
+    }
+
+    public ArrayList<Guerriere> getBestGuerriere() {
+
+        ArrayList<Guerriere> listGuerriere = new ArrayList<>();
+
+        for (Fourmi f : listFourmis) {
+            if (f.getClass().toString().equals("class com.fourmilliere.entities.Guerriere")) {
+                System.out.println(f);
+                listGuerriere.add((Guerriere) f);
+            }
+        }
+
+        Guerriere.sortByKills(listGuerriere);
+
+        return listGuerriere;
+
+    }
+
+    public ArrayList<Reine> getBestReine() {
+
+        ArrayList<Reine> listReine = new ArrayList<>();
+
+        for (Fourmi f : listFourmis) {
+            if (f.getClass().toString().equals("class com.fourmilliere.entities.Reine")) {
+                System.out.println(f);
+                listReine.add((Reine) f);
+            }
+        }
+
+        Reine.sortByNaissance(listReine);
+
+        return listReine;
+
+    }
+
+    public ArrayList<Ouvriere> getBestOuvriere() {
+
+        ArrayList<Ouvriere> listOuvriere = new ArrayList<>();
+
+        for (Fourmi f : listFourmis) {
+            if (f.getClass().toString().equals("class com.fourmilliere.entities.Ouvriere")) {
+                System.out.println(f);
+                listOuvriere.add((Ouvriere) f);
+            }
+        }
+
+        Ouvriere.sortByNourrir(listOuvriere);
+
+        return listOuvriere;
+
     }
 }

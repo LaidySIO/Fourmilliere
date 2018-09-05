@@ -1,14 +1,14 @@
 package com.fourmilliere.entities;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
 
 public class Ouvriere extends Fourmi{
 
     String inventaire = null;
+    int nbNourrir = 0;
 
 
     public Ouvriere(int id, Faction faction, int[] position) {
@@ -146,6 +146,7 @@ public class Ouvriere extends Fourmi{
     }
 
     public void nourrir() {
+        this.setNbNourrir(getNbNourrir() + 1);
         System.out.println("ON NOURRIT LA REINE AVEC " + this.inventaire);
         Reine reine = Reine.getReine(this.faction);
         if(this.inventaire == "EAU")
@@ -163,6 +164,14 @@ public class Ouvriere extends Fourmi{
         this.inventaire = inventaire;
     }
 
+    public int getNbNourrir() {
+        return nbNourrir;
+    }
+
+    public void setNbNourrir(int nbNourrir) {
+        this.nbNourrir = nbNourrir;
+    }
+
     @Override
     public String toString() {
         return "Ouvriere{" +
@@ -172,5 +181,30 @@ public class Ouvriere extends Fourmi{
                 ", position=" + Arrays.toString(position) +
                 ", alive=" + alive +
                 '}';
+    }
+
+    /**
+     * Compare le nombre fois qu'une ouvrière a nourri sa reine
+     */
+
+    public static Comparator<Ouvriere> CompareNourrir = new Comparator<Ouvriere>() {
+
+        @Override
+        public int compare(Ouvriere o1, Ouvriere o2) {
+
+            return Integer.compare(o2.getNbNourrir(),o1.getNbNourrir());
+        }
+    };
+
+    /**
+     *
+     * @param liste : liste des ouvrières de la liste listFourmi
+     * @return Retourne la liste des ouvrières selon le nombre de fois qu'elles ont nourri leurs reine
+     */
+    public static List<Ouvriere> sortByNourrir(List<Ouvriere> liste) {
+        List<Ouvriere> sortedList = liste;
+
+        Collections.sort(sortedList, Ouvriere.CompareNourrir);
+        return sortedList;
     }
 }

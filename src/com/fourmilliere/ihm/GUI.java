@@ -8,14 +8,17 @@ import com.fourmilliere.main.MainFourmiliere;
 import java.awt.*;
 import javax.swing.*;
 import java.lang.*;
+import java.util.ArrayList;
 
 import static com.fourmilliere.main.MainFourmiliere.board;
 import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
+import static com.fourmilliere.main.MainFourmiliere.listFourmis;
 
 public class GUI {
 
     public GUI(int size, int nbColonies, int rarete) {
-
+        // Init de la liste des fourmis
+        listFourmis = new ArrayList<>();
         MainFourmiliere.index = new JTextField[size][size];
         MainFourmiliere.frame.setSize(500, 500);
         JPanel panel = new JPanel();

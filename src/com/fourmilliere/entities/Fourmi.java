@@ -3,9 +3,7 @@ package com.fourmilliere.entities;
 import com.fourmilliere.dao.IActions;
 import com.fourmilliere.ihm.Start;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.fourmilliere.main.MainFourmiliere.listFourmis;
@@ -166,4 +164,6 @@ public abstract class Fourmi  implements IActions{
 
         return Objects.hash(getId());
     }
+
+
 }

@@ -1,6 +1,9 @@
 package com.fourmilliere.entities;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.fourmilliere.ihm.GUI.isFreeCase;
 import static com.fourmilliere.ihm.GUI.isValidCase;
@@ -99,6 +102,14 @@ public class Guerriere extends Fourmi{
         Case.clearCase(positionInitial);
     }
 
+    public int getVictimes() {
+        return victimes;
+    }
+
+    public void setVictimes(int victimes) {
+        this.victimes = victimes;
+    }
+
     @Override
     public String toString() {
         return "Guerriere{" +
@@ -108,5 +119,30 @@ public class Guerriere extends Fourmi{
                 ", position=" + Arrays.toString(position) +
                 ", alive=" + alive +
                 '}';
+    }
+
+    /**
+     * Compare le nombre des victimes de deux guerriere
+     */
+
+    public static Comparator<Guerriere> CompareKills = new Comparator<Guerriere>() {
+
+        @Override
+        public int compare(Guerriere g1, Guerriere g2) {
+
+            return Integer.compare(g2.getVictimes(),g1.getVictimes());
+        }
+    };
+
+    /**
+     *
+     * @param liste : liste des guerrieres de la liste listFourmi
+     * @return Retourne la liste des guerrieres selon ne nombre de victime
+     */
+    public static List<Guerriere> sortByKills(List<Guerriere> liste) {
+        List<Guerriere> sortedList = liste;
+
+        Collections.sort(sortedList, Guerriere.CompareKills);
+        return sortedList;
     }
 }
