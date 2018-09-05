@@ -8,14 +8,14 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class MainFourmiliere {
-    public static Case[][] fourmiliere;
+    public static Case[][] fourmiliereCase;
 
     // Fenetre du jeu
     public static JFrame frame = new JFrame("Fourmilière");
     // Grille du jeu
     public static JPanel board = new JPanel();
     // Cases du jeu
-    public static JTextField[][] index;
+    public static JLabel[][] fourmiliereJLabel;
     // Liste des fourmis
     public static ArrayList<Fourmi> listFourmis = new ArrayList<>();
     // Boolean fin de la simulation ?

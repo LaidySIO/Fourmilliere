@@ -1,9 +1,10 @@
 package com.fourmilliere.entities;
 
 
+import javax.swing.*;
 import java.util.*;
 
-import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
+import static com.fourmilliere.main.MainFourmiliere.fourmiliereCase;
 
 public class Ouvriere extends Fourmi{
 
@@ -16,6 +17,7 @@ public class Ouvriere extends Fourmi{
         this.faction = faction;
         this.position = position;
         this.alive = true;
+        this.icon = new ImageIcon(getClass().getResource("/com/fourmilliere/Files/ouvriere.png"));
     }
 
     /**
@@ -61,9 +63,9 @@ public class Ouvriere extends Fourmi{
 
     public  boolean testSiCaseslibre(int[] caseATester) {
         try {
-            if (fourmiliere[caseATester[1]][caseATester[0]].getTypeFourmi() == null )
+            if (fourmiliereCase[caseATester[1]][caseATester[0]].getTypeFourmi() == null )
                 return true;
-            else if (fourmiliere[caseATester[1]][caseATester[0]].getTypeFourmi() == "Reine" && this.inventaire != null) {
+            else if (fourmiliereCase[caseATester[1]][caseATester[0]].getTypeFourmi() == "Reine" && this.inventaire != null) {
                 // Si on est a coté de la reine
                 nourrir();
                 return false;
@@ -87,9 +89,9 @@ public class Ouvriere extends Fourmi{
                 positionTarget = getPositionFinal("cherche");
         }else{
             positionTarget = getPositionFinal("cherche");
-            if (fourmiliere[positionTarget[1]][positionTarget[0]].typeRessource != null) {
-                this.inventaire = fourmiliere[positionTarget[1]][positionTarget[0]].getTypeRessource();
-                fourmiliere[positionTarget[1]][positionTarget[0]].typeRessource = null;
+            if (fourmiliereCase[positionTarget[1]][positionTarget[0]].typeRessource != null) {
+                this.inventaire = fourmiliereCase[positionTarget[1]][positionTarget[0]].getTypeRessource();
+                fourmiliereCase[positionTarget[1]][positionTarget[0]].typeRessource = null;
             }
         }
         int[] positionInitial = this.getPosition();

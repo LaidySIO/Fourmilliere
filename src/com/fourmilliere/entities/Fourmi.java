@@ -3,6 +3,7 @@ package com.fourmilliere.entities;
 import com.fourmilliere.dao.IActions;
 import com.fourmilliere.ihm.Start;
 
+import javax.swing.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,6 +15,7 @@ public abstract class Fourmi  implements IActions{
     int id;
     protected Faction faction;
     protected int[] position;
+    public ImageIcon icon;
     protected boolean alive = true;
 
     /**
@@ -137,6 +139,14 @@ public abstract class Fourmi  implements IActions{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ImageIcon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(ImageIcon icon) {
+        this.icon = icon;
     }
 
     public Fourmi findById(int id) {
