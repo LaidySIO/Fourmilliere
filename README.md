@@ -5,7 +5,7 @@
 
   - Lancer MainFourmilliere.main()
   - Saisir les parametres : 
-    - Nombre de cases (min: 10 | max: 99)
+    - Nombre de cases
     - Nombre de colonie
     - % de rareté des rassources
     
@@ -42,21 +42,21 @@ Une colonie de fourmis est composée des membres suivants :
 
 
  ##### Language 
-  Java
+  - Java
  #####Rendu en console 
-  Java Swing 
+  - Java Swing 
  
  #####Fonction principales de l'application 
- ######generate()
- Permet de générer les element swing au lancement du jeu 
- ######seDeplacer()
- Déplace une fourmi d'une case à l'autre 
- ######getDirectionPossible()
- Liste de positions qui déterminent les directions possible pour une fourmi
- ######rentrer()
- Liste de positions qui déterminent la meilleur direction possible pour qu'une ouvriere donne à manger à la reine
- ######donnerVie()
- La reine donne naissance a des fourmi s'il y a de la place
+ #####generate()
+ - Permet de générer les element swing au lancement du jeu 
+ #####seDeplacer()
+ - Déplace une fourmi d'une case à l'autre 
+ #####getDirectionPossible()
+ - Liste de positions qui déterminent les directions possible pour une fourmi
+ #####rentrer()
+ - Liste de positions qui déterminent la meilleur direction possible pour qu'une ouvriere donne à manger à la reine
+ #####donnerVie()
+ - La reine donne naissance a des fourmi s'il y a de la place
 
  
 
