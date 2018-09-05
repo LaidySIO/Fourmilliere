@@ -75,7 +75,7 @@ public class Reine extends Fourmi {
      */
     public void actionDonnerVie(int[] positionTemp, String type) {
         // Calcul du prochain id a attribuer
-        int nextId = listFourmis.size() - 1;
+        int nextId = listFourmis.size();
         if (type.equals("Ouvriere")){
             listFourmis.add(new Ouvriere(nextId, this.faction, positionTemp));
         }
