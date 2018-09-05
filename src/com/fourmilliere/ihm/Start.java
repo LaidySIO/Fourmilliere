@@ -181,7 +181,8 @@ public class Start extends JFrame {
 
                     try {
                         GUI.regenerate();
-                        Thread.sleep(30);
+                        // Vitesse du jeu
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         System.out.println("Exception e : " + e);
                     }
@@ -193,7 +194,7 @@ public class Start extends JFrame {
 
         }
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
             // Pour parcourir le Set<>
             Iterator<Faction> itr=faction.iterator();
 
@@ -213,8 +214,15 @@ public class Start extends JFrame {
         taille.setText("");
         colonies.setText("");
         rarete.setText("");
+        // typeMessage = 0
+        int typeMessage = JOptionPane.OK_OPTION;
+
+        if (win) {
+            typeMessage = JOptionPane.INFORMATION_MESSAGE;
+        }
+
         JOptionPane.showMessageDialog(null, new JPanel().add(new JLabel(msg)),
-                "Erreur de parametre ", JOptionPane.OK_OPTION);
+                title, typeMessage);
         if (!win) {
             new Start();
         }
