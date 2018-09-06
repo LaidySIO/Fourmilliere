@@ -14,7 +14,7 @@ import static com.fourmilliere.main.MainFourmiliere.listFourmis;
 
 public class Start extends JFrame {
 
-
+    public static final int vitesseJeu = 100;
     private static Start INSTANCE = null;
     private int nbColonies = 0;
     private int rare = 0;
@@ -143,7 +143,6 @@ public class Start extends JFrame {
             if (getClass.equals("class com.fourmilliere.entities.Reine")) {
                 Reine reine = (Reine) listFourmis.get(i);
                 reine.donnerVie();
-//                GUI.regenerate();
             }
         }
     }
@@ -179,7 +178,7 @@ public class Start extends JFrame {
                     try {
                         GUI.regenerate();
                         // Vitesse du jeu
-                        Thread.sleep(100);
+                        Thread.sleep(vitesseJeu);
                     } catch (InterruptedException e) {
                         System.out.println("Exception e : " + e);
                     }

@@ -63,7 +63,9 @@ public class Ouvriere extends Fourmi{
         try {
             if (fourmiliereCase[caseATester[1]][caseATester[0]].getTypeFourmi() == null )
                 return true;
-            else if (fourmiliereCase[caseATester[1]][caseATester[0]].getTypeFourmi() == "Reine" && this.inventaire != null) {
+            else if (fourmiliereCase[caseATester[1]][caseATester[0]].getTypeFourmi() == "Reine"
+                    && this.faction.equals(fourmiliereCase[caseATester[1]][caseATester[0]].getFaction())
+                    && this.inventaire != null) {
                 // Si on est a coté de la reine
                 nourrir();
                 return false;
@@ -147,7 +149,11 @@ public class Ouvriere extends Fourmi{
 
     public void nourrir() {
         this.setNbNourrir(getNbNourrir() + 1);
-        System.out.println("ON NOURRIT LA REINE AVEC " + this.inventaire);
+        System.out.println("L'ouvriere " + this.getId()
+                + " de la Faction " + this.getFaction().getId()
+                + " nourrit la reine " + Reine.getReine(this.faction).getId()
+                + " de la faction " + Reine.getReine(this.faction).getFaction().getId()
+                + " avec = " + this.inventaire);
         Reine reine = Reine.getReine(this.faction);
         if(this.inventaire == "EAU")
             reine.setWater(reine.getWater()+1);

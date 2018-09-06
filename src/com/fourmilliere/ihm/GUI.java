@@ -94,7 +94,12 @@ public class GUI {
             for (int j = 0; j < size; j++) {
                 fourmiliereJTextField[i][j] = new JTextField(1);
                 if (fourmiliereCase[i][j].getTypeFourmi() != null) {
-                    fourmiliereJTextField[i][j].setFont(new Font("Verdana",Font.BOLD,12));
+                    if (fourmiliereCase[i][j].getTypeFourmi().equals("Reine")){
+                        fourmiliereJTextField[i][j].setFont(new Font("Verdana",Font.BOLD,11));
+                    }else {
+                        fourmiliereJTextField[i][j].setFont(new Font("Verdana",Font.BOLD,10));
+
+                    }
                 }
                 fourmiliereJTextField[i][j].setForeground(fourmiliereCase[i][j].getFaction().getColor());
                 fourmiliereJTextField[i][j].setText(fourmiliereCase[i][j].toString());
@@ -111,7 +116,7 @@ public class GUI {
             if (MainFourmiliere.fourmiliereCase[y][x].getTypeFourmi() == null)
                 return true;
         }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("une fourmi a essayer d'aller a la position :"+MainFourmiliere.fourmiliereCase[1] +" , "+MainFourmiliere.fourmiliereCase[0]+" sans succes car la case n'existe pas");
+            System.out.println("une fourmi a essayer d'aller a la position :"+MainFourmiliere.fourmiliereCase[1][0].getY() +" , "+MainFourmiliere.fourmiliereCase[1][0].getX()+" sans succes car la case n'existe pas");
 
         }
         return false;
@@ -125,7 +130,7 @@ public class GUI {
                 return true;
         }
         catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("une fourmi a essayer d'aller a la position :"+MainFourmiliere.fourmiliereCase[1] +" , "+MainFourmiliere.fourmiliereCase[0]+" sans succes car la case n'existe pas");
+            System.out.println("une fourmi a essayer d'aller a la position :"+MainFourmiliere.fourmiliereCase[1][0].getY() +" , "+MainFourmiliere.fourmiliereCase[1][0].getX()+" sans succes car la case n'existe pas");
             return false;
         }
         return false;
