@@ -91,6 +91,7 @@ public class Ouvriere extends Fourmi{
             positionTarget = getPositionFinal("cherche");
             if (fourmiliereCase[positionTarget[1]][positionTarget[0]].typeRessource != null) {
                 this.inventaire = fourmiliereCase[positionTarget[1]][positionTarget[0]].getTypeRessource();
+                fourmiliereCase[positionTarget[1]][positionTarget[0]].setIcon(null);
                 fourmiliereCase[positionTarget[1]][positionTarget[0]].typeRessource = null;
             }
         }

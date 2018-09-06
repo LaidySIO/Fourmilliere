@@ -8,6 +8,8 @@ import com.fourmilliere.main.MainFourmiliere;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.lang.*;
 import java.util.ArrayList;
 
@@ -57,7 +59,6 @@ public class GUI {
                             fourmiliereCase[y][x].setTypeRessource(INVENTAIRE.FRUITS.toString());
                             fourmiliereCase[y][x].setIcon(new ImageIcon(getClass().getResource("/com/fourmilliere/Files/food.png")));
                         }
-
                     }
                 }
             }
@@ -97,6 +98,7 @@ public class GUI {
         board.removeAll();
         // create a line border with the specified color and width
         Border border;
+        Border margin = new EmptyBorder(10,10,10,10);
         // set the border of this component
 
         for (int i = 0; i < size; i++)
@@ -110,8 +112,8 @@ public class GUI {
 
                     MainFourmiliere.fourmiliereJLabel[i][j].setIcon(icon);
                 }
-                border = BorderFactory.createLineBorder(fourmiliereCase[i][j].getFaction().getColor(), 1);
-                MainFourmiliere.fourmiliereJLabel[i][j].setBorder(border);
+                border = BorderFactory.createLineBorder(fourmiliereCase[i][j].getFaction().getColor(), 3);
+                MainFourmiliere.fourmiliereJLabel[i][j].setBorder(new CompoundBorder(border,margin));
                 board.add(MainFourmiliere.fourmiliereJLabel[i][j]);
             }
         board.revalidate();

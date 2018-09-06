@@ -96,26 +96,30 @@ public class Case {
     @Override
     public String toString() {
 
-        if (this.typeFourmi != null)
-        {
+        if (this.typeFourmi != null) {
             return this.typeFourmi.toString() + " - " + this.getId();
-        }
-        else if ((this.typeRessource != null)){
+        } else if ((this.typeRessource != null)) {
             return this.typeRessource.toString();
-        }
-
-        else {
+        } else {
             return "";
         }
 
     }
 
     public static void clearCase(int[] positionTarget) {
-            fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
-            fourmiliereCase[positionTarget[1]][positionTarget[0]].setId(0);
-            fourmiliereCase[positionTarget[1]][positionTarget[0]].setIcon(null);
-            // On remet la couleur en noir
-            fourmiliereCase[positionTarget[1]][positionTarget[0]].setFaction(new Faction());
+        fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
+        fourmiliereCase[positionTarget[1]][positionTarget[0]].setId(0);
+        // On remet la couleur en noir
+        fourmiliereCase[positionTarget[1]][positionTarget[0]].setFaction(new Faction());
+        fourmiliereCase[positionTarget[1]][positionTarget[0]].setIcon(null);
+/*        if (fourmiliereCase[positionTarget[1]][positionTarget[0]].typeRessource != null) {
+            fourmiliereCase[positionTarget[1]][positionTarget[0]].setIcon(
+                    setFoodIcon(fourmiliereCase[positionTarget[1]][positionTarget[0]].typeRessource)
+            );
+
+        } else
+            fourmiliereCase[positionTarget[1]][positionTarget[0]].setIcon(null);*/
+
 
     }
 
@@ -123,17 +127,27 @@ public class Case {
         String getClass = fourmi.getClass().toString();
         System.out.println("addFourmiToCase => " + getClass);
 
-            if(getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
-                fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
-            }
-            if(getClass.equals("class com.fourmilliere.entities.Guerriere")) {
-                fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi("Guerriere");
-            }
+        if (getClass.equals("class com.fourmilliere.entities.Ouvriere")) {
+            fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi("Ouvriere");
+        }
+        if (getClass.equals("class com.fourmilliere.entities.Guerriere")) {
+            fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi("Guerriere");
+        }
 
-            fourmiliereCase[positionTarget[1]][positionTarget[0]].setId(fourmi.getId());
-            fourmiliereCase[positionTarget[1]][positionTarget[0]].setIcon(fourmi.getIcon());
-            // On remet la couleur de la fourmi
-            fourmiliereCase[positionTarget[1]][positionTarget[0]].setFaction(fourmi.getFaction());
+        fourmiliereCase[positionTarget[1]][positionTarget[0]].setId(fourmi.getId());
+        fourmiliereCase[positionTarget[1]][positionTarget[0]].setIcon(fourmi.getIcon());
+        // On remet la couleur de la fourmi
+        fourmiliereCase[positionTarget[1]][positionTarget[0]].setFaction(fourmi.getFaction());
+
+    }
+
+    public static ImageIcon setFoodIcon(String typeRessource) {
+
+        if (typeRessource == "EAU")
+            return new ImageIcon(ImageIcon.class.getResource("/com/fourmilliere/Files/water.png"));
+
+        // Sinon c'est de la nourritutre
+        return new ImageIcon(ImageIcon.class.getResource("/com/fourmilliere/Files/water.png"));
 
     }
 }
