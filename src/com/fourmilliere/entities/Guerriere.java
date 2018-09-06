@@ -7,7 +7,7 @@ import java.util.List;
 
 import static com.fourmilliere.ihm.GUI.isFreeCase;
 import static com.fourmilliere.ihm.GUI.isValidCase;
-import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
+import static com.fourmilliere.main.MainFourmiliere.fourmiliereCase;
 
 public class Guerriere extends Fourmi{
 
@@ -31,8 +31,8 @@ public class Guerriere extends Fourmi{
         int itr = 0;
         while(!isValidCase(positionTarget[1],positionTarget[0])) {
             int [] temp = randCase(getDirectionPossible(this));
-            if (isValidCase(temp[1],temp[0]) && fourmiliere[temp[1]][temp[0]].getTypeFourmi() != null
-                    && !fourmiliere[temp[1]][temp[0]].getFaction().equals(this.getFaction()))  {
+            if (isValidCase(temp[1],temp[0]) && fourmiliereCase[temp[1]][temp[0]].getTypeFourmi() != null
+                    && !fourmiliereCase[temp[1]][temp[0]].getFaction().equals(this.getFaction()))  {
                 positionTarget = temp;
             }
 
@@ -47,8 +47,8 @@ public class Guerriere extends Fourmi{
             GuerriereGoTOCase(positionTarget);
         }
         // S'il y a une Fourmi enemie
-        else if (!fourmiliere[positionTarget[1]][positionTarget[0]].getFaction().equals(this.getFaction())){
-            String typeFourmi = fourmiliere[positionTarget[1]][positionTarget[0]].typeFourmi;
+        else if (!fourmiliereCase[positionTarget[1]][positionTarget[0]].getFaction().equals(this.getFaction())){
+            String typeFourmi = fourmiliereCase[positionTarget[1]][positionTarget[0]].typeFourmi;
 
             System.out.println("*********************  Oulala !! Une "+typeFourmi+"  ***********************");
 
@@ -65,15 +65,15 @@ public class Guerriere extends Fourmi{
                     // on va écraser la guerriere adverse avec notre guerriere
 
                     // ON set la case a null avant le depalcement
-                    fourmiliere[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
-                    kill(fourmiliere[positionTarget[1]][positionTarget[0]].getId());
+                    fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
+                    kill(fourmiliereCase[positionTarget[1]][positionTarget[0]].getId());
                     GuerriereGoTOCase(positionTarget);
                     victimes++;
                 }
             }
             else{
-                fourmiliere[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
-                kill(fourmiliere[positionTarget[1]][positionTarget[0]].getId());
+                fourmiliereCase[positionTarget[1]][positionTarget[0]].setTypeFourmi(null);
+                kill(fourmiliereCase[positionTarget[1]][positionTarget[0]].getId());
                 GuerriereGoTOCase(positionTarget);
                 victimes++;
             }

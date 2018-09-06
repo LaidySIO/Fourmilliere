@@ -64,7 +64,7 @@ public class Start extends JFrame {
                 "</HTML>";
         JPanel myPanel = new JPanel();
         JLabel myLabel = new JLabel(instructions);
-        myLabel.setForeground(Color.RED);
+        myLabel.setForeground(Color.BLUE);
         myPanel.add(myLabel);
         myPanel.add(Box.createVerticalStrut(20));
 

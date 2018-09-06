@@ -2,7 +2,7 @@ package com.fourmilliere.entities;
 
 import java.util.*;
 
-import static com.fourmilliere.main.MainFourmiliere.fourmiliere;
+import static com.fourmilliere.main.MainFourmiliere.fourmiliereCase;
 import static com.fourmilliere.main.MainFourmiliere.listFourmis;
 
 public class Reine extends Fourmi {
@@ -36,7 +36,7 @@ public class Reine extends Fourmi {
         for (int i =0; i<=3;i++){
             position = randCase(getDirectionPossible(this));
             try {
-                if (fourmiliere[position[1]][position[0]].typeFourmi == null && fourmiliere[position[1]][position[0]] != null) {
+                if (fourmiliereCase[position[1]][position[0]].typeFourmi == null && fourmiliereCase[position[1]][position[0]] != null) {
                     positionTemp = position;
                     switch (naissance) {
                         case 0:
@@ -69,7 +69,7 @@ public class Reine extends Fourmi {
     }
 
     /**
-     * Ajoute un nouvelle fourmi dans la fourmiliere
+     * Ajoute un nouvelle fourmi dans la fourmiliereCase
      * @param positionTemp Position de la fourmi qui va naitre
      * @param type Ouvrière ou Guerrière
      */
@@ -84,8 +84,8 @@ public class Reine extends Fourmi {
         else {
             listFourmis.add(new Guerriere(nextId, this.faction, positionTemp));
         }
-        fourmiliere[positionTemp[1]][positionTemp[0]].setTypeFourmi(type);
-        fourmiliere[positionTemp[1]][positionTemp[0]].setId(nextId);
+        fourmiliereCase[positionTemp[1]][positionTemp[0]].setTypeFourmi(type);
+        fourmiliereCase[positionTemp[1]][positionTemp[0]].setId(nextId);
         System.out.println("Naissance d'une "+ type +" au debut du jeu = " + listFourmis.get(listFourmis.size() - 1).toString());
 
     }
